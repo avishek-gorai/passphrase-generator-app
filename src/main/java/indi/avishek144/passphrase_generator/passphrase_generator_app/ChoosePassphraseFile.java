@@ -18,6 +18,10 @@ package indi.avishek144.passphrase_generator.passphrase_generator_app;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Scanner;
+
 import javax.swing.JFileChooser;
 
 /**
@@ -43,7 +47,21 @@ implements ActionListener {
         
         var selected_file = file_chooser.getSelectedFile();
         if (selected_file != null) {
-        	source_frame.setPassphrase_file(selected_file);
+        	try (var file_scanner = new Scanner(selected_file)) {
+        		var word_table = new HashMap<Integer, String>();
+        		var first_number = file_scanner.next();
+				var number_of_dice = first_number.length();
+				source_frame.setNumberOfDice(number_of_dice);
+				word_table.put(Integer.parseInt(first_number), file_scanner.next());
+				
+				while (file_scanner.hasNext()) {
+					word_table.put(file_scanner.nextInt(), file_scanner.next());
+				}
+				source_frame.setPassphraseFileName(selected_file.getName());
+				source_frame.setWordTable(word_table);
+			} catch (FileNotFoundException e1) {
+				
+			}
         }
     }
 }

@@ -18,6 +18,7 @@ package indi.avishek144.passphrase_generator.passphrase_generator_app;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 /**
  *
@@ -35,6 +36,23 @@ implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e)
     {
+        var word_table = source_frame.getWordTable();
+        var number_of_dice = source_frame.getNumberOfDice();
+        var random_generator = new Random();
+        var number_of_words = source_frame.getNumberOfWords();
         
+        var passphrase = new StringBuilder();
+        
+        for (var index = 1; index <= number_of_words; ++index) {
+	        var number = 0;
+	        for (var j = 1; j <= number_of_dice; ++j) {
+	        	number = number * 10 + random_generator.nextInt(5) + 1;
+	        }
+	        
+	        passphrase.append(word_table.get(number)).append(' ');
+        }
+        
+        passphrase.deleteCharAt(passphrase.length()-1);
+        source_frame.setPassphrase(passphrase.toString());
     }   
 }

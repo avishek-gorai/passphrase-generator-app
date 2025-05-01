@@ -14,12 +14,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * 
+ */
 package indi.avishek144.passphrase_generator.passphrase_generator_app;
 
-import javax.swing.SwingUtilities;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class App {
-   public static void main(String[] args) {
-       SwingUtilities.invokeLater(() -> new MainFrame());
-   }
+/**
+ * 
+ */
+final class CopyPassphrase
+implements ActionListener {
+	private MainFrame source_frame;
+	
+	CopyPassphrase(MainFrame source_frame)
+	{
+		this.source_frame = source_frame;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent ae) {
+		var passphrase = new StringSelection(source_frame.getPassphrase());
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(passphrase, null);
+	}
+
 }
