@@ -23,8 +23,6 @@ package indi.avishek144.passphrase_generator.passphrase_generator_app;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.io.File;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -51,7 +49,6 @@ extends JFrame {
     private final JButton generate_passphrase_button, copy_button, choose_passphrase_file_button;
     private final JSpinner number_of_words_selector;
     
-    private File passphrase_file;
 	private HashMap<Integer, String> word_table;
 	private int number_of_dice;
     
