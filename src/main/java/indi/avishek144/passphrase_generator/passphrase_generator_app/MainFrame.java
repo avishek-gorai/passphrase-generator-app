@@ -37,7 +37,7 @@ import javax.swing.JTextArea;
  *
  * @author Avishek Gorai
  */
-final class MainFrame
+public class MainFrame
 extends JFrame {
     /**
 	 * 
@@ -52,7 +52,7 @@ extends JFrame {
 	private HashMap<Integer, String> word_table;
 	private int number_of_dice;
     
-    MainFrame()
+    public MainFrame()
     {
         super("Passphrase generator");
         final var MIN_PASSPHRASE_LENGTH = 6;

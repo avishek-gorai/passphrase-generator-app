@@ -27,11 +27,11 @@ import java.awt.event.ActionListener;
 /**
  * 
  */
-final class CopyPassphrase
+public class CopyPassphrase
 implements ActionListener {
 	private MainFrame source_frame;
 	
-	CopyPassphrase(MainFrame source_frame)
+	public CopyPassphrase(MainFrame source_frame)
 	{
 		this.source_frame = source_frame;
 	}

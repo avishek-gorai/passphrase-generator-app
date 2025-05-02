@@ -24,7 +24,7 @@ import java.util.Random;
  *
  * @author AVISHEK
  */
-final class GeneratePassphrase
+public class GeneratePassphrase
 implements ActionListener {
     private final MainFrame source_frame;
     

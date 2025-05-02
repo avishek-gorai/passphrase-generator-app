@@ -28,11 +28,11 @@ import javax.swing.JFileChooser;
  *
  * @author Avishek Gorai
  */
-final class ChoosePassphraseFile
+public class ChoosePassphraseFile
 implements ActionListener {
     private final MainFrame source_frame;
     
-    ChoosePassphraseFile(MainFrame source_frame)
+    public ChoosePassphraseFile(MainFrame source_frame)
     {
         this.source_frame = source_frame;
     }
