@@ -24,22 +24,37 @@ import java.util.Random;
  *
  * @author AVISHEK
  */
-public class GeneratePassphrase
+class GeneratePassphrase
 implements ActionListener {
-    private final MainFrame source_frame;
-    
-    public GeneratePassphrase(MainFrame source_frame)
-    {
-        this.source_frame = source_frame;
-    }
+    private App sourceFrame;
 
-    @Override
+	public GeneratePassphrase(App source_frame)
+    {
+        setSourceFrame(source_frame);
+    }
+	
+    /**
+	 * @param sourceFrame the sourceFrame to set
+	 */
+	private GeneratePassphrase setSourceFrame(App sourceFrame) {
+		this.sourceFrame = sourceFrame;
+		return this;
+	}
+
+    /**
+	 * @return the sourceFrame
+	 */
+	private App getSourceFrame() {
+		return sourceFrame;
+	}
+
+	@Override
     public void actionPerformed(ActionEvent e)
     {
-        var word_table = source_frame.getWordTable();
-        var number_of_dice = source_frame.getNumberOfDice();
+        var word_table = getSourceFrame().getWordTable();
+        var number_of_dice = getSourceFrame().getNumberOfDice();
         var random_generator = new Random();
-        var number_of_words = source_frame.getNumberOfWords();
+        var number_of_words = getSourceFrame().getNumberOfWords();
         
         var passphrase = new StringBuilder();
         
@@ -53,6 +68,6 @@ implements ActionListener {
         }
         
         passphrase.deleteCharAt(passphrase.length()-1);
-        source_frame.setPassphrase(passphrase.toString());
+        getSourceFrame().setPassphrase(passphrase.toString());
     }   
 }

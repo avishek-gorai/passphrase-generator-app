@@ -28,14 +28,29 @@ import javax.swing.JFileChooser;
  *
  * @author Avishek Gorai
  */
-public class ChoosePassphraseFile
+public class ChangePassphraseFile
 implements ActionListener {
-    private final MainFrame source_frame;
-    
-    public ChoosePassphraseFile(MainFrame source_frame)
+    private App sourceFrame;
+
+	public ChangePassphraseFile(App source_frame)
     {
-        this.source_frame = source_frame;
+        setSourceFrame(source_frame);
     }
+	
+    /**
+	 * @return the source_frame
+	 */
+	private App getSourceFrame() {
+		return sourceFrame;
+	}
+
+	/**
+	 * @param source_frame the source_frame to set
+	 */
+	private ChangePassphraseFile setSourceFrame(App source_frame) {
+		this.sourceFrame = source_frame;
+		return this;
+	}
     
     @Override
     public void actionPerformed(ActionEvent e)
@@ -43,7 +58,7 @@ implements ActionListener {
         var file_chooser = new JFileChooser("Choose passphrase file");
         
         file_chooser.setFileFilter(new TextFileFilter());
-        file_chooser.showOpenDialog(source_frame);
+        file_chooser.showOpenDialog(getSourceFrame());
         
         var selected_file = file_chooser.getSelectedFile();
         if (selected_file != null) {
@@ -51,14 +66,14 @@ implements ActionListener {
         		var word_table = new HashMap<Integer, String>();
         		var first_number = file_scanner.next();
 				var number_of_dice = first_number.length();
-				source_frame.setNumberOfDice(number_of_dice);
+				getSourceFrame().setNumberOfDice(number_of_dice);
 				word_table.put(Integer.parseInt(first_number), file_scanner.next());
 				
 				while (file_scanner.hasNext()) {
 					word_table.put(file_scanner.nextInt(), file_scanner.next());
 				}
-				source_frame.setPassphraseFileName(selected_file.getName());
-				source_frame.setWordTable(word_table);
+				getSourceFrame().setPassphraseFileName(selected_file.getName());
+				getSourceFrame().setWordTable(word_table);
 			} catch (FileNotFoundException e1) {
 				
 			}

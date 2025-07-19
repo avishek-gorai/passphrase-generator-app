@@ -23,22 +23,17 @@ import javax.swing.filechooser.FileFilter;
  *
  * @author AVISHEK
  */
-public class TextFileFilter
+class TextFileFilter
 extends FileFilter {
-	
-	public TextFileFilter()
-	{
-		
-	}
     
     @Override
-    public boolean accept(File f)
+	public boolean accept(File f)
     {
         return true;
     }
 
     @Override
-    public String getDescription() {
+	public String getDescription() {
         return "Text files";
     }
 }

@@ -29,16 +29,30 @@ import java.awt.event.ActionListener;
  */
 public class CopyPassphrase
 implements ActionListener {
-	private MainFrame source_frame;
+	private App sourceFrame;
+
+	public CopyPassphrase(App source_frame) {
+		setSourceFrame(source_frame);
+	}
 	
-	public CopyPassphrase(MainFrame source_frame)
-	{
-		this.source_frame = source_frame;
+	/**
+	 * @param sourceFrame the sourceFrame to set
+	 */
+	private CopyPassphrase setSourceFrame(App sourceFrame) {
+		this.sourceFrame = sourceFrame;
+		return this;
+	}
+	
+	/**
+	 * @return the sourceFrame
+	 */
+	private App getSourceFrame() {
+		return sourceFrame;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		var passphrase = new StringSelection(source_frame.getPassphrase());
+		var passphrase = new StringSelection(getSourceFrame().getPassphrase());
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(passphrase, null);
 	}
 
