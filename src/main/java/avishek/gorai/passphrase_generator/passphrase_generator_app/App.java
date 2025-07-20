@@ -18,30 +18,37 @@
  * 
  */
 
-package indi.avishek144.passphrase_generator.passphrase_generator_app;
+package avishek.gorai.passphrase_generator.passphrase_generator_app;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Scanner;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.JTextArea;
 
 /**
- *
+ * The main class.
  * @author Avishek Gorai
  */
 public class App
 extends JFrame {
     /**
-	 * 
+	 * The Serial version UID.
 	 */
 	private static final long serialVersionUID = 6523053009929522870L;
 	private JLabel passphraseFileNameLabel;
@@ -49,13 +56,14 @@ extends JFrame {
     private JButton generatePassphraseButton, copyButton, changePassphraseFileButton;
     private JSpinner numberOfWordsSelector;
 	private HashMap<Integer, String> wordTable;
+	private File passphraseFile;
 	private int numberOfDice;
     
-    public App()
-    {
+    public App() {
         super("Passphrase generator");
         final var MIN_PASSPHRASE_LENGTH = 6;
         
+        setWordTable(new HashMap<Integer, String>());
         setPassphraseViewer(new JTextArea());
         setGeneratePassphraseButton(new JButton("Generate"));
         setCopyButton(new JButton("Copy"));
@@ -86,52 +94,112 @@ extends JFrame {
         third_row.add(generatePassphraseButton, BorderLayout.SOUTH);
         third_row.add(copyButton);
         
-        try (var file_scanner = new Scanner(getClass().getResourceAsStream("/electronic_frontier_foundation_large_wordlist.txt"))) {
-			wordTable = new HashMap<Integer, String>();
-			var first_number = file_scanner.next();
-			numberOfDice = first_number.length();
-			
-			wordTable.put(Integer.parseInt(first_number), file_scanner.next());
-			while (file_scanner.hasNext()) {
-				wordTable.put(file_scanner.nextInt(), file_scanner.next());
-			}
-		}
-        
-        setPassphraseFileName("electronic_frontier_foundation_large_wordlist.txt");
-        getChangePassphraseFileButton().addActionListener(new ChangePassphraseFile(this));
-        getGeneratePassphraseButton().addActionListener(new GeneratePassphrase(this));
+        setPassphraseFile(getClass().getClassLoader().getResource("electronic_frontier_foundation_large_wordlist.txt").getPath());
+        getChangePassphraseFileButton().addActionListener((action) -> {
+        	var file_chooser = new JFileChooser("Choose passphrase file");
+            
+            file_chooser.setFileFilter(new FileFilter() {
+				@Override
+				public boolean accept(File f) {
+					return true;
+				}
+
+				@Override
+				public String getDescription() {
+					return "Text Files";
+				}
+            	
+            });
+            file_chooser.showOpenDialog(this);
+            
+            var selected_file = file_chooser.getSelectedFile();
+            if (selected_file != null) {
+            	setPassphraseFile(selected_file);
+            }
+        });
+        getGeneratePassphraseButton().addActionListener((action) -> {
+             var random_generator = new Random();
+             var passphrase = new StringBuilder();
+             
+             for (var index = 1; index <= getNumberOfWords(); ++index) {
+     	        var number = 0;
+     	        for (var j = 1; j <= getNumberOfDice(); ++j) {
+     	        	number = number * 10 + random_generator.nextInt(5) + 1;
+     	        }
+     	        
+     	        passphrase.append(getWordTable().get(number)).append(' ');
+             }
+             
+             passphrase.deleteCharAt(passphrase.length()-1);
+             setPassphrase(passphrase.toString());
+        });
         getPassphraseViewer().setLineWrap(true);
         getPassphraseViewer().setEditable(false);
-        getCopyButton().addActionListener(new CopyPassphrase(this));
+        getCopyButton().addActionListener((action) -> Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(getPassphrase()), null));
         setResizable(false);
         setSize(800, 150);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     
-    /**
-	 * @return the passphraseViewer
+    private App setPassphraseFile(String file_name) {
+		setPassphraseFile(new File(file_name));
+		return this;
+	}
+
+	/**
+	 * @return the passphraseFile
+	 */
+	public File getPassphraseFile() {
+		return passphraseFile;
+	}
+
+	/**
+	 * @param passphraseFile The passphrase file to set.
+	 */
+	public App setPassphraseFile(File passphraseFile) {
+		this.passphraseFile = passphraseFile;
+		
+		try (var file_scanner = new Scanner(getPassphraseFile())) {
+    		var first_number = file_scanner.next();
+			setNumberOfDice(first_number.length());
+			
+			getWordTable().put(Integer.parseInt(first_number), file_scanner.next());
+			while (file_scanner.hasNext()) {
+				getWordTable().put(file_scanner.nextInt(), file_scanner.next());
+			}
+			getPassphraseFileNameLabel().setText(getPassphraseFile().getName());
+		} catch (FileNotFoundException e1) {
+			
+		}
+		return this;
+	}
+
+	/**
+     * Returns the passphraseViewer.
+	 * @return The passphraseViewer.
 	 */
 	private JTextArea getPassphraseViewer() {
 		return passphraseViewer;
 	}
 
 	/**
-	 * @return the generatePassphraseButton
+	 * Returns the generatePassphraseButton.
+	 * @return The generatePassphraseButton
 	 */
 	private JButton getGeneratePassphraseButton() {
 		return generatePassphraseButton;
 	}
 
 	/**
-	 * @return the copyButton
+	 * @return The copyButton
 	 */
 	private JButton getCopyButton() {
 		return copyButton;
 	}
 
 	/**
-	 * @return the changePassphraseFileButton
+	 * @return The changePassphraseFileButton.
 	 */
 	private JButton getChangePassphraseFileButton() {
 		return changePassphraseFileButton;
@@ -146,7 +214,15 @@ extends JFrame {
 	}
 
 	/**
-	 * @param passphraseViewer the passphraseViewer to set
+	 * @return the passphraseFileNameLabel
+	 */
+	private JLabel getPassphraseFileNameLabel() {
+		return passphraseFileNameLabel;
+	}
+
+	/**
+	 * @param passphraseViewer The passphraseViewer to set.
+	 * @return this.
 	 */
 	private App setPassphraseViewer(JTextArea passphraseViewer) {
 		this.passphraseViewer = passphraseViewer;
@@ -162,7 +238,7 @@ extends JFrame {
 	}
 
 	/**
-	 * @param copyButton the copyButton to set
+	 * @param copyButton The copyButton to set.
 	 */
 	private App setCopyButton(JButton copyButton) {
 		this.copyButton = copyButton;
@@ -187,15 +263,16 @@ extends JFrame {
 
 	public int getNumberOfWords() 
     {
-        var number_of_words = (Number) numberOfWordsSelector.getValue();
+        var number_of_words = (Number) getNumberOfWordsSelector().getValue();
         return number_of_words.intValue();
     }
     
-    public App setPassphraseFileName(String passphrase_file_name)
-    {
-        passphraseFileNameLabel.setText(passphrase_file_name);
-        return this;
-    }
+    /**
+	 * @return the numberOfWordsSelector
+	 */
+	private JSpinner getNumberOfWordsSelector() {
+		return numberOfWordsSelector;
+	}
 
 	public App setWordTable(HashMap<Integer, String> word_table) {
 		this.wordTable = word_table;
@@ -203,36 +280,31 @@ extends JFrame {
 	}
 
 	/**
-	 * @return the word_table
+	 * @return The wordTable.
 	 */
-	public HashMap<Integer, String> getWordTable()
-	{
+	public HashMap<Integer, String> getWordTable() {
 		return wordTable;
 	}
 
-	public int getNumberOfDice()
-	{
+	public int getNumberOfDice() {
 		return numberOfDice;
 	}
 	
-	public App setNumberOfDice(int n)
-	{
+	public App setNumberOfDice(int n) {
 		numberOfDice = n;
 		return this;
 	}
 
 	public App setPassphrase(String passphrase) {
-		passphraseViewer.setText(passphrase);
+		getPassphraseViewer().setText(passphrase);
 		return this;
 	}
 
-	public String getPassphrase() 
-	{
-		return passphraseViewer.getText();
+	public String getPassphrase() {
+		return getPassphraseViewer().getText();
 	}
 	
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> new App());
 	}
 }
