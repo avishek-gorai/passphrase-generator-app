@@ -59,7 +59,7 @@ extends JFrame {
 	private File passphraseFile;
 	private int numberOfDice;
     
-    public App() {
+    App() {
         super("Passphrase generator");
         final var MIN_PASSPHRASE_LENGTH = 6;
         
@@ -131,33 +131,33 @@ extends JFrame {
              }
              
              passphrase.deleteCharAt(passphrase.length()-1);
-             setPassphrase(passphrase.toString());
+             getPassphraseViewer().setText(passphrase.toString());
         });
         getPassphraseViewer().setLineWrap(true);
         getPassphraseViewer().setEditable(false);
-        getCopyButton().addActionListener((action) -> Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(getPassphrase()), null));
+        getCopyButton().addActionListener((action) -> Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(getPassphraseViewer().getText()), null));
         setResizable(false);
         setSize(800, 150);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     
-    private App setPassphraseFile(String file_name) {
-		setPassphraseFile(new File(file_name));
+    private App setPassphraseFile(String path) {
+		setPassphraseFile(new File(path));
 		return this;
 	}
 
 	/**
 	 * @return the passphraseFile
 	 */
-	public File getPassphraseFile() {
+	private File getPassphraseFile() {
 		return passphraseFile;
 	}
 
 	/**
 	 * @param passphraseFile The passphrase file to set.
 	 */
-	public App setPassphraseFile(File passphraseFile) {
+	private App setPassphraseFile(File passphraseFile) {
 		this.passphraseFile = passphraseFile;
 		
 		try (var file_scanner = new Scanner(getPassphraseFile())) {
@@ -170,7 +170,7 @@ extends JFrame {
 			}
 			getPassphraseFileNameLabel().setText(getPassphraseFile().getName());
 		} catch (FileNotFoundException e1) {
-			
+			new ErrorDialog(this, e1.getMessage());
 		}
 		return this;
 	}
@@ -261,7 +261,7 @@ extends JFrame {
 		return this;
 	}
 
-	public int getNumberOfWords() 
+	private int getNumberOfWords() 
     {
         var number_of_words = (Number) getNumberOfWordsSelector().getValue();
         return number_of_words.intValue();
@@ -274,7 +274,7 @@ extends JFrame {
 		return numberOfWordsSelector;
 	}
 
-	public App setWordTable(HashMap<Integer, String> word_table) {
+	private App setWordTable(HashMap<Integer, String> word_table) {
 		this.wordTable = word_table;
 		return this;
 	}
@@ -282,26 +282,17 @@ extends JFrame {
 	/**
 	 * @return The wordTable.
 	 */
-	public HashMap<Integer, String> getWordTable() {
+	private HashMap<Integer, String> getWordTable() {
 		return wordTable;
 	}
 
-	public int getNumberOfDice() {
+	private int getNumberOfDice() {
 		return numberOfDice;
 	}
 	
-	public App setNumberOfDice(int n) {
+	private App setNumberOfDice(int n) {
 		numberOfDice = n;
 		return this;
-	}
-
-	public App setPassphrase(String passphrase) {
-		getPassphraseViewer().setText(passphrase);
-		return this;
-	}
-
-	public String getPassphrase() {
-		return getPassphraseViewer().getText();
 	}
 	
 	public static void main(String[] args) {
