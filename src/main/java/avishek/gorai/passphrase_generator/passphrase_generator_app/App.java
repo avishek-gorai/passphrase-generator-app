@@ -51,7 +51,6 @@ extends JFrame {
 	 * The Serial version UID.
 	 */
 	private static final long serialVersionUID = 6523053009929522870L;
-	private static final int minimumPassphraseLength = 6;
 	private JLabel passphraseFileNameLabel;
 	private JTextArea passphraseViewer;
     private JButton generatePassphraseButton, copyButton, changePassphraseFileButton;
@@ -75,7 +74,7 @@ extends JFrame {
         setThirdRowContainer(new Container());
         setPassphraseFile(getClass().getClassLoader().getResource("electronic_frontier_foundation_large_wordlist.txt").getPath());
         setResizable(false);
-        setSize(800, 150);
+        setSize(900, 180);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
@@ -84,7 +83,7 @@ extends JFrame {
 	 * @return the minimumpassphraselength
 	 */
 	private static int getMinimumpassphraselength() {
-		return minimumPassphraseLength;
+		return 6;
 	}
 
 	/**
