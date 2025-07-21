@@ -17,20 +17,19 @@ extends JDialog {
 	private static final long serialVersionUID = -3105604605372914878L;
 	private JLabel errorLabel;
 	private JButton okButton;
-	
 
 	ErrorDialog(App main_frame, String error_message) {
 		super(main_frame);
+		setTitle("Error");
 		setErrorLabel(new JLabel());
 		setOkButton(new JButton("OK"));
-		add(getErrorLabel(), BorderLayout.CENTER);
 		if (error_message != null) {
 			getErrorLabel().setText(error_message);
 		}
 		else {
 			getErrorLabel().setText("Unknown Error!");
 		}
-		getOk_button().addActionListener((action) -> setVisible(false));
+		getOkButton().addActionListener((action) -> setVisible(false));
 		setSize(200, 120);
 		setVisible(true);
 	}
@@ -38,7 +37,7 @@ extends JDialog {
 	/**
 	 * @return the ok_button
 	 */
-	private JButton getOk_button() {
+	private JButton getOkButton() {
 		return okButton;
 	}
 
@@ -47,6 +46,7 @@ extends JDialog {
 	 */
 	private ErrorDialog setOkButton(JButton ok_button) {
 		this.okButton = ok_button;
+		add(getOkButton(), BorderLayout.SOUTH);
 		return this;
 	}
 
@@ -62,6 +62,7 @@ extends JDialog {
 	 */
 	private ErrorDialog setErrorLabel(JLabel errorLabel) {
 		this.errorLabel = errorLabel;
+		add(getErrorLabel(), BorderLayout.CENTER);
 		return this;
 	}
 }
