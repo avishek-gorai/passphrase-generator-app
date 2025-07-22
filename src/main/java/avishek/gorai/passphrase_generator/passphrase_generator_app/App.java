@@ -15,7 +15,7 @@
  */
 
 /**
- * 
+ *
  */
 
 package avishek.gorai.passphrase_generator.passphrase_generator_app;
@@ -42,17 +42,16 @@ import javax.swing.JTextArea;
 
 /**
  * The main class.
- * 
+ *
  * @author Avishek Gorai
  */
 public class App extends JFrame {
     /**
-     * The Serial version UID.
-     */
-    private static final long serialVersionUID = 6523053009929522870L;
-    private static final int minimumPassphraseLength = 6;
-    private JLabel passphraseFileNameLabel;
-    private JTextArea passphraseViewer;
+	 * The Serial version UID.
+	 */
+	private static final long serialVersionUID = 6523053009929522870L;
+	private JLabel passphraseFileNameLabel;
+	private JTextArea passphraseViewer;
     private JButton generatePassphraseButton, copyButton, changePassphraseFileButton;
     private JSpinner numberOfWordsSelector;
     private HashMap<Integer, String> wordTable;
@@ -74,17 +73,17 @@ public class App extends JFrame {
         setThirdRowContainer(new Container());
         setPassphraseFile(getClass().getClassLoader().getResource("electronic_frontier_foundation_large_wordlist.txt").getPath());
         setResizable(false);
-        setSize(800, 150);
+        setSize(900, 180);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
 
     /**
-     * @return the minimumpassphraselength
-     */
-    private static int getMinimumpassphraselength() {
-        return minimumPassphraseLength;
-    }
+	 * @return the minimumpassphraselength
+	 */
+	private static int getMinimumpassphraselength() {
+		return 6;
+	}
 
     /**
      * @return the fileInputContainer
@@ -222,7 +221,7 @@ public class App extends JFrame {
 
     /**
      * Returns the passphraseViewer.
-     * 
+     *
      * @return The passphraseViewer.
      */
     private JTextArea getPassphraseViewer() {
@@ -231,7 +230,7 @@ public class App extends JFrame {
 
     /**
      * Returns the generatePassphraseButton.
-     * 
+     *
      * @return The generatePassphraseButton
      */
     private JButton getGeneratePassphraseButton() {
