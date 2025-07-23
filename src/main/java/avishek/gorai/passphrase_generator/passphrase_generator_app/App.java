@@ -71,23 +71,14 @@ public class App extends JFrame {
         setVisible(true);
     }
 
-    /**
-	 * @return the minimumpassphraselength
-	 */
 	static int getMinimumpassphraselength() {
 		return 6;
 	}
 
-    /**
-     * @return the fileInputContainer
-     */
     Container getFileInputContainer() {
         return fileInputContainer;
     }
 
-    /**
-     * @param fileInputContainer the fileInputContainer to set
-     */
     App setFileInputContainer(Container fileInputContainer) {
         this.fileInputContainer = fileInputContainer;
         getFileInputContainer().setLayout(new GridLayout(1, 0));
@@ -120,16 +111,10 @@ public class App extends JFrame {
         return this;
     }
 
-    /**
-     * @return the mainInputContainer
-     */
     Container getMainInputContainer() {
         return mainInputContainer;
     }
 
-    /**
-     * @param mainInputContainer the mainInputContainer to set
-     */
     App setMainInputContainer(Container mainInputContainer) {
         this.mainInputContainer = mainInputContainer;
         getMainInputContainer().setLayout(new GridLayout(1, 0));
@@ -139,16 +124,10 @@ public class App extends JFrame {
         return this;
     }
 
-    /**
-     * @return the thirdRowContainer
-     */
     Container getThirdRowContainer() {
         return thirdRowContainer;
     }
 
-    /**
-     * @param thirdRowContainer the thirdRowContainer to set
-     */
     App setThirdRowContainer(Container thirdRowContainer) {
         this.thirdRowContainer = thirdRowContainer;
         getThirdRowContainer().setLayout(new GridLayout(0, 1));
@@ -184,16 +163,10 @@ public class App extends JFrame {
         return this;
     }
 
-    /**
-     * @return the passphraseFile
-     */
     File getPassphraseFile() {
         return passphraseFile;
     }
 
-    /**
-     * @param passphraseFile The passphrase file to set.
-     */
     App setPassphraseFile(File passphraseFile) {
         this.passphraseFile = passphraseFile;
 
@@ -212,89 +185,51 @@ public class App extends JFrame {
         return this;
     }
 
-    /**
-     * Returns the passphraseViewer.
-     *
-     * @return The passphraseViewer.
-     */
     JTextArea getPassphraseViewer() {
         return passphraseViewer;
     }
 
-    /**
-     * Returns the generatePassphraseButton.
-     *
-     * @return The generatePassphraseButton
-     */
     JButton getGeneratePassphraseButton() {
         return generatePassphraseButton;
     }
 
-    /**
-     * @return The copyButton
-     */
     JButton getCopyButton() {
         return copyButton;
     }
 
-    /**
-     * @return The changePassphraseFileButton.
-     */
     JButton getChangePassphraseFileButton() {
         return changePassphraseFileButton;
     }
 
-    /**
-     * @param passphraseFileNameLabel the passphraseFileNameLabel to set
-     */
     App setPassphraseFileNameLabel(JLabel passphraseFileNameLabel) {
         this.passphraseFileNameLabel = passphraseFileNameLabel;
         return this;
     }
 
-    /**
-     * @return the passphraseFileNameLabel
-     */
     JLabel getPassphraseFileNameLabel() {
         return passphraseFileNameLabel;
     }
 
-    /**
-     * @param passphraseViewer The passphraseViewer to set.
-     * @return this.
-     */
     App setPassphraseViewer(JTextArea passphraseViewer) {
         this.passphraseViewer = passphraseViewer;
         return this;
     }
 
-    /**
-     * @param generatePassphraseButton the generatePassphraseButton to set
-     */
     App setGeneratePassphraseButton(JButton generatePassphraseButton) {
         this.generatePassphraseButton = generatePassphraseButton;
         return this;
     }
 
-    /**
-     * @param copyButton The copyButton to set.
-     */
     App setCopyButton(JButton copyButton) {
         this.copyButton = copyButton;
         return this;
     }
 
-    /**
-     * @param choosePassphraseFileButton the choosePassphraseFileButton to set
-     */
     App setChangePassphraseFileButton(JButton choosePassphraseFileButton) {
         this.changePassphraseFileButton = choosePassphraseFileButton;
         return this;
     }
 
-    /**
-     * @param numberOfWordsSelector the numberOfWordsSelector to set
-     */
     App setNumberOfWordsSelector(JSpinner numberOfWordsSelector) {
         this.numberOfWordsSelector = numberOfWordsSelector;
         return this;
@@ -305,9 +240,6 @@ public class App extends JFrame {
         return number_of_words.intValue();
     }
 
-    /**
-     * @return the numberOfWordsSelector
-     */
     JSpinner getNumberOfWordsSelector() {
         return numberOfWordsSelector;
     }
@@ -317,9 +249,6 @@ public class App extends JFrame {
         return this;
     }
 
-    /**
-     * @return The wordTable.
-     */
     HashMap<Integer, String> getWordTable() {
         return wordTable;
     }
