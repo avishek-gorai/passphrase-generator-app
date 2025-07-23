@@ -34,33 +34,21 @@ extends JDialog {
 		setVisible(true);
 	}
 
-	/**
-	 * @return the ok_button
-	 */
-	private JButton getOkButton() {
+	JButton getOkButton() {
 		return okButton;
 	}
 
-	/**
-	 * @param ok_button the ok_button to set
-	 */
-	private ErrorDialog setOkButton(JButton ok_button) {
+	ErrorDialog setOkButton(JButton ok_button) {
 		this.okButton = ok_button;
 		add(getOkButton(), BorderLayout.SOUTH);
 		return this;
 	}
 
-	/**
-	 * @return the errorLabel
-	 */
-	private JLabel getErrorLabel() {
+	JLabel getErrorLabel() {
 		return errorLabel;
 	}
 
-	/**
-	 * @param errorLabel the errorLabel to set
-	 */
-	private ErrorDialog setErrorLabel(JLabel errorLabel) {
+	ErrorDialog setErrorLabel(JLabel errorLabel) {
 		this.errorLabel = errorLabel;
 		add(getErrorLabel(), BorderLayout.CENTER);
 		return this;
