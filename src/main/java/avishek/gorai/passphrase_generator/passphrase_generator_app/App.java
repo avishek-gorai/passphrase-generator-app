@@ -14,10 +14,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- *
- */
-
 package avishek.gorai.passphrase_generator.passphrase_generator_app;
 
 import java.awt.BorderLayout;
@@ -46,9 +42,6 @@ import javax.swing.JTextArea;
  * @author Avishek Gorai
  */
 public class App extends JFrame {
-    /**
-	 * The Serial version UID.
-	 */
 	private static final long serialVersionUID = 6523053009929522870L;
 	private JLabel passphraseFileNameLabel;
 	private JTextArea passphraseViewer;
@@ -81,21 +74,21 @@ public class App extends JFrame {
     /**
 	 * @return the minimumpassphraselength
 	 */
-	private static int getMinimumpassphraselength() {
+	static int getMinimumpassphraselength() {
 		return 6;
 	}
 
     /**
      * @return the fileInputContainer
      */
-    private Container getFileInputContainer() {
+    Container getFileInputContainer() {
         return fileInputContainer;
     }
 
     /**
      * @param fileInputContainer the fileInputContainer to set
      */
-    private App setFileInputContainer(Container fileInputContainer) {
+    App setFileInputContainer(Container fileInputContainer) {
         this.fileInputContainer = fileInputContainer;
         getFileInputContainer().setLayout(new GridLayout(1, 0));
         getFileInputContainer().add(new JLabel("Passphrase File"));
@@ -130,14 +123,14 @@ public class App extends JFrame {
     /**
      * @return the mainInputContainer
      */
-    private Container getMainInputContainer() {
+    Container getMainInputContainer() {
         return mainInputContainer;
     }
 
     /**
      * @param mainInputContainer the mainInputContainer to set
      */
-    private App setMainInputContainer(Container mainInputContainer) {
+    App setMainInputContainer(Container mainInputContainer) {
         this.mainInputContainer = mainInputContainer;
         getMainInputContainer().setLayout(new GridLayout(1, 0));
         getMainInputContainer().add(new JLabel("Number of words"));
@@ -149,14 +142,14 @@ public class App extends JFrame {
     /**
      * @return the thirdRowContainer
      */
-    private Container getThirdRowContainer() {
+    Container getThirdRowContainer() {
         return thirdRowContainer;
     }
 
     /**
      * @param thirdRowContainer the thirdRowContainer to set
      */
-    private App setThirdRowContainer(Container thirdRowContainer) {
+    App setThirdRowContainer(Container thirdRowContainer) {
         this.thirdRowContainer = thirdRowContainer;
         getThirdRowContainer().setLayout(new GridLayout(0, 1));
         getThirdRowContainer().add(getPassphraseViewer());
@@ -186,7 +179,7 @@ public class App extends JFrame {
         return this;
     }
 
-    private App setPassphraseFile(String path) {
+    App setPassphraseFile(String path) {
         setPassphraseFile(new File(path));
         return this;
     }
@@ -194,14 +187,14 @@ public class App extends JFrame {
     /**
      * @return the passphraseFile
      */
-    private File getPassphraseFile() {
+    File getPassphraseFile() {
         return passphraseFile;
     }
 
     /**
      * @param passphraseFile The passphrase file to set.
      */
-    private App setPassphraseFile(File passphraseFile) {
+    App setPassphraseFile(File passphraseFile) {
         this.passphraseFile = passphraseFile;
 
         try (var file_scanner = new Scanner(getPassphraseFile())) {
@@ -224,7 +217,7 @@ public class App extends JFrame {
      *
      * @return The passphraseViewer.
      */
-    private JTextArea getPassphraseViewer() {
+    JTextArea getPassphraseViewer() {
         return passphraseViewer;
     }
 
@@ -233,28 +226,28 @@ public class App extends JFrame {
      *
      * @return The generatePassphraseButton
      */
-    private JButton getGeneratePassphraseButton() {
+    JButton getGeneratePassphraseButton() {
         return generatePassphraseButton;
     }
 
     /**
      * @return The copyButton
      */
-    private JButton getCopyButton() {
+    JButton getCopyButton() {
         return copyButton;
     }
 
     /**
      * @return The changePassphraseFileButton.
      */
-    private JButton getChangePassphraseFileButton() {
+    JButton getChangePassphraseFileButton() {
         return changePassphraseFileButton;
     }
 
     /**
      * @param passphraseFileNameLabel the passphraseFileNameLabel to set
      */
-    private App setPassphraseFileNameLabel(JLabel passphraseFileNameLabel) {
+    App setPassphraseFileNameLabel(JLabel passphraseFileNameLabel) {
         this.passphraseFileNameLabel = passphraseFileNameLabel;
         return this;
     }
@@ -262,7 +255,7 @@ public class App extends JFrame {
     /**
      * @return the passphraseFileNameLabel
      */
-    private JLabel getPassphraseFileNameLabel() {
+    JLabel getPassphraseFileNameLabel() {
         return passphraseFileNameLabel;
     }
 
@@ -270,7 +263,7 @@ public class App extends JFrame {
      * @param passphraseViewer The passphraseViewer to set.
      * @return this.
      */
-    private App setPassphraseViewer(JTextArea passphraseViewer) {
+    App setPassphraseViewer(JTextArea passphraseViewer) {
         this.passphraseViewer = passphraseViewer;
         return this;
     }
@@ -278,7 +271,7 @@ public class App extends JFrame {
     /**
      * @param generatePassphraseButton the generatePassphraseButton to set
      */
-    private App setGeneratePassphraseButton(JButton generatePassphraseButton) {
+    App setGeneratePassphraseButton(JButton generatePassphraseButton) {
         this.generatePassphraseButton = generatePassphraseButton;
         return this;
     }
@@ -286,7 +279,7 @@ public class App extends JFrame {
     /**
      * @param copyButton The copyButton to set.
      */
-    private App setCopyButton(JButton copyButton) {
+    App setCopyButton(JButton copyButton) {
         this.copyButton = copyButton;
         return this;
     }
@@ -294,7 +287,7 @@ public class App extends JFrame {
     /**
      * @param choosePassphraseFileButton the choosePassphraseFileButton to set
      */
-    private App setChangePassphraseFileButton(JButton choosePassphraseFileButton) {
+    App setChangePassphraseFileButton(JButton choosePassphraseFileButton) {
         this.changePassphraseFileButton = choosePassphraseFileButton;
         return this;
     }
@@ -302,12 +295,12 @@ public class App extends JFrame {
     /**
      * @param numberOfWordsSelector the numberOfWordsSelector to set
      */
-    private App setNumberOfWordsSelector(JSpinner numberOfWordsSelector) {
+    App setNumberOfWordsSelector(JSpinner numberOfWordsSelector) {
         this.numberOfWordsSelector = numberOfWordsSelector;
         return this;
     }
 
-    private int getNumberOfWords() {
+    int getNumberOfWords() {
         var number_of_words = (Number) getNumberOfWordsSelector().getValue();
         return number_of_words.intValue();
     }
@@ -315,11 +308,11 @@ public class App extends JFrame {
     /**
      * @return the numberOfWordsSelector
      */
-    private JSpinner getNumberOfWordsSelector() {
+    JSpinner getNumberOfWordsSelector() {
         return numberOfWordsSelector;
     }
 
-    private App setWordTable(HashMap<Integer, String> word_table) {
+    App setWordTable(HashMap<Integer, String> word_table) {
         this.wordTable = word_table;
         return this;
     }
@@ -327,15 +320,15 @@ public class App extends JFrame {
     /**
      * @return The wordTable.
      */
-    private HashMap<Integer, String> getWordTable() {
+    HashMap<Integer, String> getWordTable() {
         return wordTable;
     }
 
-    private int getNumberOfDice() {
+    int getNumberOfDice() {
         return numberOfDice;
     }
 
-    private App setNumberOfDice(int n) {
+    App setNumberOfDice(int n) {
         numberOfDice = n;
         return this;
     }
