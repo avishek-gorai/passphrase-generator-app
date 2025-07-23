@@ -43,6 +43,7 @@ import javax.swing.JTextArea;
  */
 public class App extends JFrame {
 	private static final long serialVersionUID = 6523053009929522870L;
+	private static final int minimumPassphraseLength = 6;
 	private JLabel passphraseFileNameLabel;
 	private JTextArea passphraseViewer;
     private JButton generatePassphraseButton, copyButton, changePassphraseFileButton;
@@ -72,7 +73,7 @@ public class App extends JFrame {
     }
 
 	static int getMinimumpassphraselength() {
-		return 6;
+		return minimumPassphraseLength;
 	}
 
     Container getFileInputContainer() {
