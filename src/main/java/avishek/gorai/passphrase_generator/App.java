@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package avishek.gorai.passphrase_generator.passphrase_generator_app;
+package avishek.gorai.passphrase_generator;
 
 import java.awt.BorderLayout;
 import java.awt.Container;

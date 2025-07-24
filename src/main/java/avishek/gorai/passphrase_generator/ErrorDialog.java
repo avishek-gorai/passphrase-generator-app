@@ -1,7 +1,7 @@
 /**
  * 
  */
-package avishek.gorai.passphrase_generator.passphrase_generator_app;
+package avishek.gorai.passphrase_generator;
 
 import java.awt.BorderLayout;
 
