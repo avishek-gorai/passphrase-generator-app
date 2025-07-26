@@ -42,10 +42,10 @@ import javax.swing.JTextArea;
  * @author Avishek Gorai
  */
 public class App extends JFrame {
-    private static final long serialVersionUID = 6523053009929522870L;
-    private static final int minimumPassphraseLength = 6;
-    private JLabel passphraseFileNameLabel;
-    private JTextArea passphraseViewer;
+	private static final long serialVersionUID = 6523053009929522870L;
+	private static final int minimumPassphraseLength = 6;
+	private JLabel passphraseFileNameLabel;
+	private JTextArea passphraseViewer;
     private JButton generatePassphraseButton, copyButton, changePassphraseFileButton;
     private JSpinner numberOfWordsSelector;
     private HashMap<Integer, String> wordTable;
@@ -72,9 +72,9 @@ public class App extends JFrame {
         setVisible(true);
     }
 
-    static int getMinimumpassphraselength() {
-        return minimumPassphraseLength;
-    }
+	static int getMinimumpassphraselength() {
+		return minimumPassphraseLength;
+	}
 
     Container getFileInputContainer() {
         return fileInputContainer;
