@@ -66,6 +66,19 @@ public class App extends JFrame {
         setMainInputContainer(new Container());
         setThirdRowContainer(new Container());
         setPassphraseFile(getClass().getClassLoader().getResource("electronic_frontier_foundation_large_wordlist.txt").getPath());
+        getFileInputContainer().add(new JLabel("Passphrase File"));
+        getFileInputContainer().add(getPassphraseFileNameLabel());
+        getFileInputContainer().add(getChangePassphraseFileButton());
+        add(getFileInputContainer(), BorderLayout.NORTH);
+        getMainInputContainer().add(new JLabel("Number of words"));
+        getMainInputContainer().add(getNumberOfWordsSelector());
+        add(getMainInputContainer(), BorderLayout.CENTER);
+        getThirdRowContainer().add(getPassphraseViewer());
+        getPassphraseViewer().setLineWrap(true);
+        getPassphraseViewer().setEditable(false);
+        getThirdRowContainer().add(getGeneratePassphraseButton(), BorderLayout.SOUTH);
+        getThirdRowContainer().add(getCopyButton());
+        add(getThirdRowContainer(), BorderLayout.SOUTH);
         setResizable(false);
         setSize(900, 180);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -81,34 +94,8 @@ public class App extends JFrame {
     }
 
     App setFileInputContainer(Container fileInputContainer) {
+        fileInputContainer.setLayout(new GridLayout(1, 0));
         this.fileInputContainer = fileInputContainer;
-        getFileInputContainer().setLayout(new GridLayout(1, 0));
-        getFileInputContainer().add(new JLabel("Passphrase File"));
-        getFileInputContainer().add(getPassphraseFileNameLabel());
-        getFileInputContainer().add(getChangePassphraseFileButton());
-        getChangePassphraseFileButton().addActionListener((action) -> {
-            var file_chooser = new JFileChooser("Choose passphrase file");
-
-            file_chooser.setFileFilter(new FileFilter() {
-                @Override
-                public boolean accept(File f) {
-                    return true;
-                }
-
-                @Override
-                public String getDescription() {
-                    return "Text Files";
-                }
-
-            });
-            file_chooser.showOpenDialog(this);
-
-            var selected_file = file_chooser.getSelectedFile();
-            if (selected_file != null) {
-                setPassphraseFile(selected_file);
-            }
-        });
-        add(getFileInputContainer(), BorderLayout.NORTH);
         return this;
     }
 
@@ -117,11 +104,8 @@ public class App extends JFrame {
     }
 
     App setMainInputContainer(Container mainInputContainer) {
+        mainInputContainer.setLayout(new GridLayout(1, 0));
         this.mainInputContainer = mainInputContainer;
-        getMainInputContainer().setLayout(new GridLayout(1, 0));
-        getMainInputContainer().add(new JLabel("Number of words"));
-        getMainInputContainer().add(getNumberOfWordsSelector());
-        add(getMainInputContainer(), BorderLayout.CENTER);
         return this;
     }
 
@@ -130,32 +114,8 @@ public class App extends JFrame {
     }
 
     App setThirdRowContainer(Container thirdRowContainer) {
+        thirdRowContainer.setLayout(new GridLayout(0, 1));
         this.thirdRowContainer = thirdRowContainer;
-        getThirdRowContainer().setLayout(new GridLayout(0, 1));
-        getThirdRowContainer().add(getPassphraseViewer());
-        getPassphraseViewer().setLineWrap(true);
-        getPassphraseViewer().setEditable(false);
-        getThirdRowContainer().add(getGeneratePassphraseButton(), BorderLayout.SOUTH);
-        getGeneratePassphraseButton().addActionListener((action) -> {
-            var random_generator = new Random();
-            var passphrase = new StringBuilder();
-
-            for (var index = 1; index <= getNumberOfWords(); ++index) {
-                var number = 0;
-                for (var j = 1; j <= getNumberOfDice(); ++j) {
-                    number = number * 10 + random_generator.nextInt(5) + 1;
-                }
-
-                passphrase.append(getWordTable().get(number)).append(' ');
-            }
-
-            passphrase.deleteCharAt(passphrase.length() - 1);
-            getPassphraseViewer().setText(passphrase.toString());
-        });
-        getThirdRowContainer().add(getCopyButton());
-        getCopyButton().addActionListener((action) -> Toolkit.getDefaultToolkit().getSystemClipboard()
-                .setContents(new StringSelection(getPassphraseViewer().getText()), null));
-        add(getThirdRowContainer(), BorderLayout.SOUTH);
         return this;
     }
 
@@ -217,17 +177,57 @@ public class App extends JFrame {
     }
 
     App setGeneratePassphraseButton(JButton generatePassphraseButton) {
+        generatePassphraseButton.addActionListener((action) -> {
+            var random_generator = new Random();
+            var passphrase = new StringBuilder();
+
+            for (var index = 1; index <= getNumberOfWords(); ++index) {
+                var number = 0;
+                for (var j = 1; j <= getNumberOfDice(); ++j) {
+                    number = number * 10 + random_generator.nextInt(5) + 1;
+                }
+
+                passphrase.append(getWordTable().get(number)).append(' ');
+            }
+
+            passphrase.deleteCharAt(passphrase.length() - 1);
+            getPassphraseViewer().setText(passphrase.toString());
+        });
         this.generatePassphraseButton = generatePassphraseButton;
         return this;
     }
 
     App setCopyButton(JButton copyButton) {
+        copyButton.addActionListener((action) -> Toolkit.getDefaultToolkit().getSystemClipboard()
+                .setContents(new StringSelection(getPassphraseViewer().getText()), null));
         this.copyButton = copyButton;
         return this;
     }
 
-    App setChangePassphraseFileButton(JButton choosePassphraseFileButton) {
-        this.changePassphraseFileButton = choosePassphraseFileButton;
+    App setChangePassphraseFileButton(JButton changePassphraseFileButton) {
+        changePassphraseFileButton.addActionListener((action) -> {
+            var file_chooser = new JFileChooser("Choose passphrase file");
+
+            file_chooser.setFileFilter(new FileFilter() {
+                @Override
+                public boolean accept(File f) {
+                    return true;
+                }
+
+                @Override
+                public String getDescription() {
+                    return "Text Files";
+                }
+
+            });
+            file_chooser.showOpenDialog(this);
+
+            var selected_file = file_chooser.getSelectedFile();
+            if (selected_file != null) {
+                setPassphraseFile(selected_file);
+            }
+        });
+        this.changePassphraseFileButton = changePassphraseFileButton;
         return this;
     }
 
