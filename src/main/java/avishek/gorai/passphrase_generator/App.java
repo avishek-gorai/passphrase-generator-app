@@ -16,8 +16,7 @@
 
 package avishek.gorai.passphrase_generator;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.io.File;
@@ -35,7 +34,7 @@ import javax.swing.*;
  */
 public class App extends JFrame {
 	private static final long serialVersionUID = 6523053009929522870L;
-	private static final int minimumPassphraseLength = 6;
+	private static final int minimumPassphraseLength = 6, appFrameHeight = 180, appFrameWidth = 900;
 	private JLabel passphraseFileNameLabel;
 	private JTextArea passphraseViewer;
     private JButton generatePassphraseButton, copyButton, changePassphraseFileButton;
@@ -43,10 +42,10 @@ public class App extends JFrame {
     private HashMap<Integer, String> wordTable;
     private File passphraseFile;
     private int numberOfDice;
-    private JPanel fileInputPanel, mainInputPanel, thirdRowPanel;
 
     App() {
         super("Passphrase generator");
+        setLayout(new GridBagLayout());
         setWordTable(new HashMap<Integer, String>());
         setPassphraseViewer(new JTextArea());
         setGeneratePassphraseButton(new JButton("Generate"));
@@ -54,62 +53,30 @@ public class App extends JFrame {
         setPassphraseFileNameLabel(new JLabel());
         setNumberOfWordsSelector(new JSpinner(new SpinnerNumberModel(App.getMinimumpassphraselength(), App.getMinimumpassphraselength(), Integer.MAX_VALUE, 1)));
         setChangePassphraseFileButton(new JButton("Change file"));
-        setFileInputPanel(new JPanel());
-        setMainInputPanel(new JPanel());
-        setThirdRowPanel(new JPanel());
         setPassphraseFile(getClass().getClassLoader().getResource("electronic_frontier_foundation_large_wordlist.txt").getPath());
-        getFileInputPanel().add(new JLabel("Passphrase File"));
-        getFileInputPanel().add(getPassphraseFileNameLabel());
-        getFileInputPanel().add(getChangePassphraseFileButton());
-        add(getFileInputPanel(), BorderLayout.NORTH);
-        getMainInputPanel().add(new JLabel("Number of words"));
-        getMainInputPanel().add(getNumberOfWordsSelector());
-        add(getMainInputPanel(), BorderLayout.CENTER);
-        getThirdRowPanel().add(getPassphraseViewer());
         getPassphraseViewer().setLineWrap(true);
         getPassphraseViewer().setEditable(false);
-        getThirdRowPanel().add(getGeneratePassphraseButton(), BorderLayout.SOUTH);
-        getThirdRowPanel().add(getCopyButton());
-        add(getThirdRowPanel(), BorderLayout.SOUTH);
+        add(new JLabel("Passphrase File"), new AppLayoutConstraint().setGridx(0).setGridy(0));
+        add(getPassphraseFileNameLabel(), new AppLayoutConstraint().setGridx(1).setGridy(0));
+        add(getChangePassphraseFileButton(), new AppLayoutConstraint().setGridx(2).setGridy(0));
+        add(new JLabel("Number of words"), new AppLayoutConstraint().setGridx(0).setGridy(1));
+        add(getNumberOfWordsSelector(), new AppLayoutConstraint().setGridx(1).setGridy(1).setGridWidth(2));
+        add(getPassphraseViewer(), new AppLayoutConstraint().setGridx(0).setGridy(2).setGridWidth(3));
+        add(getCopyButton(), new AppLayoutConstraint().setGridx(0).setGridy(3).setGridWidth(3));
+        add(getGeneratePassphraseButton(), new AppLayoutConstraint().setGridx(0).setGridy(4).setGridWidth(3));
         setResizable(false);
-        setSize(900, 180);
+        setSize(App.getAppframewidth(), App.getAppframeheight());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+    }
+    
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new App());
     }
 
 	static int getMinimumpassphraselength() {
 		return minimumPassphraseLength;
 	}
-
-    JPanel getFileInputPanel() {
-        return fileInputPanel;
-    }
-
-    App setFileInputPanel(JPanel fileInputPanel) {
-        fileInputPanel.setLayout(new GridLayout(1, 0));
-        this.fileInputPanel = fileInputPanel;
-        return this;
-    }
-
-    JPanel getMainInputPanel() {
-        return mainInputPanel;
-    }
-
-    App setMainInputPanel(JPanel mainInputPanel) {
-        mainInputPanel.setLayout(new GridLayout(1, 0));
-        this.mainInputPanel = mainInputPanel;
-        return this;
-    }
-
-    JPanel getThirdRowPanel() {
-        return thirdRowPanel;
-    }
-
-    App setThirdRowPanel(JPanel thirdRowPanel) {
-        thirdRowPanel.setLayout(new GridLayout(0, 1));
-        this.thirdRowPanel = thirdRowPanel;
-        return this;
-    }
 
     App setPassphraseFile(String path) {
         setPassphraseFile(new File(path));
@@ -255,7 +222,11 @@ public class App extends JFrame {
         return this;
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new App());
+    static int getAppframewidth() {
+        return appFrameWidth;
+    }
+
+    static int getAppframeheight() {
+        return appFrameHeight;
     }
 }
