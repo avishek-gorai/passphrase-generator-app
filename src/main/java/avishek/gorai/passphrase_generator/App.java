@@ -28,11 +28,12 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.*;
 
 /**
- * The main class.
+ * I represent the Passphrase Generator application.
  *
  * @author Avishek Gorai
  */
-public class App extends JFrame {
+class App 
+extends JFrame {
 	private static final long serialVersionUID = 6523053009929522870L;
 	private static final int minimumPassphraseLength = 6, appFrameHeight = 180, appFrameWidth = 900;
 	private JLabel passphraseFileNameLabel;
@@ -56,14 +57,14 @@ public class App extends JFrame {
         setPassphraseFile(getClass().getClassLoader().getResource("electronic_frontier_foundation_large_wordlist.txt").getPath());
         getPassphraseViewer().setLineWrap(true);
         getPassphraseViewer().setEditable(false);
-        add(new JLabel("Passphrase File"), new AppLayoutConstraint().setGridx(0).setGridy(0));
-        add(getPassphraseFileNameLabel(), new AppLayoutConstraint().setGridx(1).setGridy(0));
-        add(getChangePassphraseFileButton(), new AppLayoutConstraint().setGridx(2).setGridy(0));
-        add(new JLabel("Number of words"), new AppLayoutConstraint().setGridx(0).setGridy(1));
-        add(getNumberOfWordsSelector(), new AppLayoutConstraint().setGridx(1).setGridy(1).setGridWidth(2));
-        add(getPassphraseViewer(), new AppLayoutConstraint().setGridx(0).setGridy(2).setGridWidth(3));
-        add(getCopyButton(), new AppLayoutConstraint().setGridx(0).setGridy(3).setGridWidth(3));
-        add(getGeneratePassphraseButton(), new AppLayoutConstraint().setGridx(0).setGridy(4).setGridWidth(3));
+        add(new JLabel("Passphrase File"), new AppLayoutConstraint().setGridX(0).setGridY(0));
+        add(getPassphraseFileNameLabel(), new AppLayoutConstraint().setGridX(1).setGridY(0));
+        add(getChangePassphraseFileButton(), new AppLayoutConstraint().setGridX(2).setGridY(0));
+        add(new JLabel("Number of words"), new AppLayoutConstraint().setGridX(0).setGridY(1));
+        add(getNumberOfWordsSelector(), new AppLayoutConstraint().setGridX(1).setGridY(1).setGridWidth(2));
+        add(getPassphraseViewer(), new AppLayoutConstraint().setGridX(0).setGridY(2).setGridWidth(3));
+        add(getCopyButton(), new AppLayoutConstraint().setGridX(0).setGridY(3).setGridWidth(3));
+        add(getGeneratePassphraseButton(), new AppLayoutConstraint().setGridX(0).setGridY(4).setGridWidth(3));
         setResizable(false);
         setSize(App.getAppframewidth(), App.getAppframeheight());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

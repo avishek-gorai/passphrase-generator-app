@@ -1,6 +1,19 @@
-/**
- * 
+/* Copyright (C) 2025 Avishek Gorai
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package avishek.gorai.passphrase_generator;
 
 import java.awt.BorderLayout;
@@ -10,7 +23,9 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 
 /**
+ * I represent a dialog box used to show errors.
  * 
+ * @author Avishek Gorai
  */
 class ErrorDialog
 extends JDialog {
@@ -34,32 +49,20 @@ extends JDialog {
 		setVisible(true);
 	}
 
-	/**
-	 * @return the ok_button
-	 */
 	private JButton getOkButton() {
 		return okButton;
 	}
 
-	/**
-	 * @param ok_button the ok_button to set
-	 */
 	private ErrorDialog setOkButton(JButton ok_button) {
 		this.okButton = ok_button;
 		add(getOkButton(), BorderLayout.SOUTH);
 		return this;
 	}
 
-	/**
-	 * @return the errorLabel
-	 */
 	private JLabel getErrorLabel() {
 		return errorLabel;
 	}
 
-	/**
-	 * @param errorLabel the errorLabel to set
-	 */
 	private ErrorDialog setErrorLabel(JLabel errorLabel) {
 		this.errorLabel = errorLabel;
 		add(getErrorLabel(), BorderLayout.CENTER);
