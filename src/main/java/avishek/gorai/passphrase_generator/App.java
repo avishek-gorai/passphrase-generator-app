@@ -75,23 +75,22 @@ extends JFrame {
         SwingUtilities.invokeLater(() -> new App());
     }
 
-	static int getMinimumpassphraselength() {
+    private static int getMinimumpassphraselength() {
 		return minimumPassphraseLength;
 	}
 
-    App setPassphraseFile(String path) {
+    private App setPassphraseFile(String path) {
         setPassphraseFile(new File(path));
+        
         return this;
     }
 
-    File getPassphraseFile() {
+    private File getPassphraseFile() {
         return passphraseFile;
     }
 
-    App setPassphraseFile(File passphraseFile) {
-        this.passphraseFile = passphraseFile;
-
-        try (var fileScanner = new Scanner(getPassphraseFile())) {
+    private App setPassphraseFile(File passphraseFile) {
+        try (var fileScanner = new Scanner(passphraseFile)) {
             var firstNumber = fileScanner.next();
             setNumberOfDice(firstNumber.length());
 
@@ -99,44 +98,49 @@ extends JFrame {
             while (fileScanner.hasNext()) {
                 getWordTable().put(fileScanner.nextInt(), fileScanner.next());
             }
-            getPassphraseFileNameLabel().setText(getPassphraseFile().getName());
+            getPassphraseFileNameLabel().setText(passphraseFile.getName());
         } catch (Exception e1) {
             new ErrorDialog(this, e1.getMessage());
         }
+        
+        this.passphraseFile = passphraseFile;
+        
         return this;
     }
 
-    JTextArea getPassphraseViewer() {
+    private JTextArea getPassphraseViewer() {
         return passphraseViewer;
     }
 
-    JButton getGeneratePassphraseButton() {
+    private JButton getGeneratePassphraseButton() {
         return generatePassphraseButton;
     }
 
-    JButton getCopyButton() {
+    private JButton getCopyButton() {
         return copyButton;
     }
 
-    JButton getChangePassphraseFileButton() {
+    private JButton getChangePassphraseFileButton() {
         return changePassphraseFileButton;
     }
 
-    App setPassphraseFileNameLabel(JLabel passphraseFileNameLabel) {
+    private App setPassphraseFileNameLabel(JLabel passphraseFileNameLabel) {
         this.passphraseFileNameLabel = passphraseFileNameLabel;
+       
         return this;
     }
 
-    JLabel getPassphraseFileNameLabel() {
+    private JLabel getPassphraseFileNameLabel() {
         return passphraseFileNameLabel;
     }
 
-    App setPassphraseViewer(JTextArea passphraseViewer) {
+    private App setPassphraseViewer(JTextArea passphraseViewer) {
         this.passphraseViewer = passphraseViewer;
+        
         return this;
     }
 
-    App setGeneratePassphraseButton(JButton generatePassphraseButton) {
+    private App setGeneratePassphraseButton(JButton generatePassphraseButton) {
         generatePassphraseButton.addActionListener((action) -> {
             var randomGenerator = new Random();
             var passphrase = new StringBuilder();
@@ -153,18 +157,21 @@ extends JFrame {
             passphrase.deleteCharAt(passphrase.length() - 1);
             getPassphraseViewer().setText(passphrase.toString());
         });
+        
         this.generatePassphraseButton = generatePassphraseButton;
+        
         return this;
     }
 
-    App setCopyButton(JButton copyButton) {
+    private App setCopyButton(JButton copyButton) {
         copyButton.addActionListener((action) -> Toolkit.getDefaultToolkit().getSystemClipboard()
                 .setContents(new StringSelection(getPassphraseViewer().getText()), null));
         this.copyButton = copyButton;
+       
         return this;
     }
 
-    App setChangePassphraseFileButton(JButton changePassphraseFileButton) {
+    private App setChangePassphraseFileButton(JButton changePassphraseFileButton) {
         changePassphraseFileButton.addActionListener((action) -> {
             var fileChooser = new JFileChooser("Choose passphrase file");
 
@@ -187,47 +194,53 @@ extends JFrame {
                 setPassphraseFile(selected_file);
             }
         });
+       
         this.changePassphraseFileButton = changePassphraseFileButton;
+        
         return this;
     }
 
-    App setNumberOfWordsSelector(JSpinner numberOfWordsSelector) {
+    private App setNumberOfWordsSelector(JSpinner numberOfWordsSelector) {
         this.numberOfWordsSelector = numberOfWordsSelector;
+       
         return this;
     }
 
-    int getNumberOfWords() {
+    private int getNumberOfWords() {
         var number_of_words = (Number) getNumberOfWordsSelector().getValue();
+       
         return number_of_words.intValue();
     }
 
-    JSpinner getNumberOfWordsSelector() {
+    private JSpinner getNumberOfWordsSelector() {
         return numberOfWordsSelector;
     }
 
-    App setWordTable(HashMap<Integer, String> word_table) {
+    private App setWordTable(HashMap<Integer, String> word_table) {
         this.wordTable = word_table;
+        
         return this;
     }
 
-    HashMap<Integer, String> getWordTable() {
+    private HashMap<Integer, String> getWordTable() {
         return wordTable;
     }
 
-    int getNumberOfDice() {
+    private int getNumberOfDice() {
         return numberOfDice;
     }
 
-    App setNumberOfDice(int n) {
+    private App setNumberOfDice(int n) {
         numberOfDice = n;
+        
         return this;
     }
 
-    static int getAppframewidth() {
+    private static int getAppframewidth() {
         return appFrameWidth;
     }
 
-    static int getAppframeheight() {
+    private static int getAppframeheight() {
         return appFrameHeight;
     }
 }

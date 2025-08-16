@@ -38,8 +38,11 @@ extends JDialog {
 		setTitle("Error");
 		setErrorLabel(new JLabel());
 		setOkButton(new JButton("OK"));
+		add(getOkButton(), BorderLayout.SOUTH);
+		add(getErrorLabel(), BorderLayout.CENTER);
 		if (error_message != null) {
 			getErrorLabel().setText(error_message);
+			Thread.dumpStack();
 		}
 		else {
 			getErrorLabel().setText("Unknown Error!");
@@ -55,7 +58,7 @@ extends JDialog {
 
 	private ErrorDialog setOkButton(JButton ok_button) {
 		this.okButton = ok_button;
-		add(getOkButton(), BorderLayout.SOUTH);
+		
 		return this;
 	}
 
@@ -65,7 +68,7 @@ extends JDialog {
 
 	private ErrorDialog setErrorLabel(JLabel errorLabel) {
 		this.errorLabel = errorLabel;
-		add(getErrorLabel(), BorderLayout.CENTER);
+		
 		return this;
 	}
 }
