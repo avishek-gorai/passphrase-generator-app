@@ -42,11 +42,11 @@ extends JDialog {
 		add(getErrorLabel(), BorderLayout.CENTER);
 		if (error_message != null) {
 			getErrorLabel().setText(error_message);
-			Thread.dumpStack();
 		}
 		else {
 			getErrorLabel().setText("Unknown Error!");
 		}
+		Thread.dumpStack();
 		getOkButton().addActionListener((action) -> setVisible(false));
 		setSize(200, 120);
 		setVisible(true);

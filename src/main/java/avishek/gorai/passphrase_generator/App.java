@@ -20,6 +20,7 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
@@ -99,7 +100,8 @@ extends JFrame {
                 getWordTable().put(fileScanner.nextInt(), fileScanner.next());
             }
             getPassphraseFileNameLabel().setText(passphraseFile.getName());
-        } catch (Exception e1) {
+        }
+        catch (FileNotFoundException e1) {
             new ErrorDialog(this, e1.getMessage());
         }
         
