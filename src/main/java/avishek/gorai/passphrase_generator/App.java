@@ -19,6 +19,8 @@ package avishek.gorai.passphrase_generator;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -171,7 +173,40 @@ extends JFrame {
     }
 
     private App setChangePassphraseFileButton(JButton changePassphraseFileButton) throws FileNotFoundException {
-    	var actionListener = new ChangePassphraseFileButtonActionListener(this);
+    	var actionListener = new ActionListener() {
+			private File passphraseFile;
+    		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				var fileChooser = new JFileChooser("Choose passphrase file");
+
+		        fileChooser.setFileFilter(new FileFilter() {
+		            @Override
+		            public boolean accept(File f) {
+		                return true;
+		            }
+
+		            @Override
+		            public String getDescription() {
+		                return "Text Files";
+		            }
+
+		        });
+		        fileChooser.showOpenDialog(App.this);
+		        setPassphraseFile(fileChooser.getSelectedFile());
+			}
+
+			private File getPassphraseFile() {
+				return passphraseFile;
+			}
+
+			private ActionListener setPassphraseFile(File passphraseFile) {
+				this.passphraseFile = passphraseFile;
+				
+				return this;
+			}
+		};
+		
     	changePassphraseFileButton.addActionListener(actionListener);
     	if (actionListener.getPassphraseFile() != null) {
     		loadPassphraseFile(actionListener.getPassphraseFile());
