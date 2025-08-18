@@ -174,28 +174,11 @@ extends JFrame {
     }
 
     private App setChangePassphraseFileButton(JButton changePassphraseFileButton) {
-        changePassphraseFileButton.addActionListener((action) -> {
-            var fileChooser = new JFileChooser("Choose passphrase file");
-
-            fileChooser.setFileFilter(new FileFilter() {
-                @Override
-                public boolean accept(File f) {
-                    return true;
-                }
-
-                @Override
-                public String getDescription() {
-                    return "Text Files";
-                }
-
-            });
-            fileChooser.showOpenDialog(this);
-
-            var selected_file = fileChooser.getSelectedFile();
-            if (selected_file != null) {
-                setPassphraseFile(selected_file);
-            }
-        });
+    	var actionListener = new ChangePassphraseFileButtonActionListener(this);
+    	changePassphraseFileButton.addActionListener(actionListener);
+    	if (actionListener.getPassphraseFile() != null) {
+    		setPassphraseFile(actionListener.getPassphraseFile());
+    	}
        
         this.changePassphraseFileButton = changePassphraseFileButton;
         
