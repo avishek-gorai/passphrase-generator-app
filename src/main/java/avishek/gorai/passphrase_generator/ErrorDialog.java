@@ -33,8 +33,7 @@ extends JDialog {
 	private JLabel errorLabel;
 	private JButton okButton;
 
-	ErrorDialog(App main_frame, String error_message) {
-		super(main_frame);
+	ErrorDialog(String error_message) {
 		setTitle("Error");
 		setErrorLabel(new JLabel());
 		setOkButton(new JButton("OK"));

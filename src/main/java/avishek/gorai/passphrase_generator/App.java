@@ -42,10 +42,9 @@ extends JFrame {
     private JButton generatePassphraseButton, copyButton, changePassphraseFileButton;
     private JSpinner numberOfWordsSelector;
     private HashMap<Integer, String> wordTable;
-    private File passphraseFile;
     private int numberOfDice;
 
-    App() {
+    App() throws FileNotFoundException {
         super("Passphrase generator");
         setLayout(new GridBagLayout());
         setWordTable(new HashMap<Integer, String>());
@@ -55,7 +54,7 @@ extends JFrame {
         setPassphraseFileNameLabel(new JLabel());
         setNumberOfWordsSelector(new JSpinner(new SpinnerNumberModel(App.getMinimumpassphraselength(), App.getMinimumpassphraselength(), Integer.MAX_VALUE, 1)));
         setChangePassphraseFileButton(new JButton("Change file"));
-        setPassphraseFile(getClass().getClassLoader().getResource("electronic_frontier_foundation_large_wordlist.txt").getPath());
+        loadPassphraseFile(getClass().getClassLoader().getResource("electronic_frontier_foundation_large_wordlist.txt").getPath());
         getPassphraseViewer().setLineWrap(true);
         getPassphraseViewer().setEditable(false);
         add(new JLabel("Passphrase File"), new AppLayoutConstraint().setGridX(0).setGridY(0));
@@ -73,24 +72,27 @@ extends JFrame {
     }
     
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new App());
+        SwingUtilities.invokeLater(() -> {
+        	try {
+        		new App();
+        	}
+        	catch (FileNotFoundException fnfe) {
+        		new ErrorDialog(fnfe.getMessage());
+        	}
+        });
     }
 
     private static int getMinimumpassphraselength() {
 		return minimumPassphraseLength;
 	}
 
-    private App setPassphraseFile(String path) {
-        setPassphraseFile(new File(path));
+    private App loadPassphraseFile(String path) throws FileNotFoundException {
+        loadPassphraseFile(new File(path));
         
         return this;
     }
 
-    private File getPassphraseFile() {
-        return passphraseFile;
-    }
-
-    private App setPassphraseFile(File passphraseFile) {
+    private App loadPassphraseFile(File passphraseFile) throws FileNotFoundException {
         try (var fileScanner = new Scanner(passphraseFile)) {
             var firstNumber = fileScanner.next();
             setNumberOfDice(firstNumber.length());
@@ -101,11 +103,6 @@ extends JFrame {
             }
             getPassphraseFileNameLabel().setText(passphraseFile.getName());
         }
-        catch (FileNotFoundException e1) {
-            new ErrorDialog(this, e1.getMessage());
-        }
-        
-        this.passphraseFile = passphraseFile;
         
         return this;
     }
@@ -173,11 +170,11 @@ extends JFrame {
         return this;
     }
 
-    private App setChangePassphraseFileButton(JButton changePassphraseFileButton) {
+    private App setChangePassphraseFileButton(JButton changePassphraseFileButton) throws FileNotFoundException {
     	var actionListener = new ChangePassphraseFileButtonActionListener(this);
     	changePassphraseFileButton.addActionListener(actionListener);
     	if (actionListener.getPassphraseFile() != null) {
-    		setPassphraseFile(actionListener.getPassphraseFile());
+    		loadPassphraseFile(actionListener.getPassphraseFile());
     	}
        
         this.changePassphraseFileButton = changePassphraseFileButton;
