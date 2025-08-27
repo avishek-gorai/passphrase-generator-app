@@ -14,12 +14,16 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
-import tkinter
+import tkinter, math
 
 class App(tkinter.Tk):
     '''I represent the Passphrase generator application.'''
+    
+    minimumPassphraseLength = 6
+    
     def __init__(self):
         super().__init__()
+        self.selectedNumberOfWords = self.minimumPassphraseLength
         self.passphraseFileLabel = tkinter.Label(self, text = 'Passphrase file')
         self.passphraseFileNameLabel = tkinter.Label(self, text = 'Passphrase file name')
         self.choosePassphraseFileButton = tkinter.Button(
@@ -28,7 +32,11 @@ class App(tkinter.Tk):
                                                 command = self.changePassphraseFile
                                             )
         self.numberOfWordsLabel = tkinter.Label(self, text = 'Number of words')
-        self.numberOfWordsSelector = tkinter.Label(self, text = 'Number of words selector')
+        self.numberOfWordsSelector = tkinter.Spinbox(
+                                            self,
+                                            from_ = self.minimumPassphraseLength,
+                                            to = math.inf
+                                    )
         self.passphraseLabel = tkinter.Label(self, text = 'Passphrase')
         self.generatePassphraseButton = tkinter.Button(
                                             self,
@@ -43,6 +51,7 @@ class App(tkinter.Tk):
 
         self.passphraseFileLabel.pack()
         self.copyButton.pack()
+        self.numberOfWordsSelector.pack()
         
 
         self.mainloop()
