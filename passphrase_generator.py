@@ -49,16 +49,27 @@ class App(tkinter.Tk):
                                     self,
                                     text = 'Copy',
                                     command = self.copyPassphrase
-                                )
+                          )
 
         # Placing widgets
-        self.passphraseFileLabel.place(relx = 0, rely = 0, relwidth = 1/3)
-        self.passphraseFileNameLabel.pack()
-        self.choosePassphraseFileButton.pack()
-        self.copyButton.pack()
-        self.numberOfWordsSelector.pack()
-        
 
+        # First row
+        self.passphraseFileLabel.place(relx = 0, rely = 0, relwidth = 1/3)
+        self.passphraseFileNameLabel.place(relx = 1/3, rely = 0, relwidth = 1/3)
+        self.choosePassphraseFileButton.place(relx = 2/3, rely = 0, relwidth = 1/3)
+
+        # Second row
+        self.numberOfWordsLabel.place(relx = 0, rely = 1/5, relwidth = 1/2)
+        self.numberOfWordsSelector.place(relx = 1/2, rely = 1/5, relwidth = 1/2)
+
+        # Third row
+        self.passphraseLabel.place(relx = 0, rely = 2/5, relwidth = 1)
+
+        # Fourth row
+        self.generatePassphraseButton.place(relx = 0, rely = 3/5, relwidth = 1)
+
+        # Fifth row
+        self.copyButton.place(relx = 0, rely = 4/5, relwidth = 1)
         self.mainloop()
 
     def changePassphraseFile(self):
@@ -72,5 +83,9 @@ class App(tkinter.Tk):
     def copyPassphrase(self):
         '''Copy passphrase method.'''
         print('Passphrase copied.')
+
+    def loadPassphraseFile(self):
+        '''Loads the passphrase file.'''
+        print('Passphrase file loaded.')
 
 App()
