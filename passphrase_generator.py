@@ -23,7 +23,8 @@ class App(tkinter.Tk):
     
     def __init__(self):
         super().__init__()
-        self.selectedNumberOfWords = self.minimumPassphraseLength
+        self.title('Passphrase generator')
+        self.geometry('700x100')
         self.passphraseFileLabel = tkinter.Label(self, text = 'Passphrase file')
         self.passphraseFileNameLabel = tkinter.Label(self, text = 'Passphrase file name')
         self.choosePassphraseFileButton = tkinter.Button(
@@ -35,7 +36,8 @@ class App(tkinter.Tk):
         self.numberOfWordsSelector = tkinter.Spinbox(
                                             self,
                                             from_ = self.minimumPassphraseLength,
-                                            to = math.inf
+                                            to = math.inf,
+                                            wrap = False
                                     )
         self.passphraseLabel = tkinter.Label(self, text = 'Passphrase')
         self.generatePassphraseButton = tkinter.Button(
@@ -49,7 +51,10 @@ class App(tkinter.Tk):
                                     command = self.copyPassphrase
                                 )
 
-        self.passphraseFileLabel.pack()
+        # Placing widgets
+        self.passphraseFileLabel.place(relx = 0, rely = 0, relwidth = 1/3)
+        self.passphraseFileNameLabel.pack()
+        self.choosePassphraseFileButton.pack()
         self.copyButton.pack()
         self.numberOfWordsSelector.pack()
         
