@@ -18,9 +18,9 @@ import tkinter, math
 
 class App(tkinter.Tk):
     '''I represent the Passphrase generator application.'''
-    
+
     minimumPassphraseLength = 6
-    
+
     def __init__(self):
         super().__init__()
         self.title('Passphrase generator')
@@ -87,5 +87,78 @@ class App(tkinter.Tk):
     def loadPassphraseFile(self):
         '''Loads the passphrase file.'''
         print('Passphrase file loaded.')
+
+    @property
+    def generatePassphraseButton(self):
+        '''The "Generate passphrase" button.'''
+        return self.__generatePassphraseButton
+
+    @generatePassphraseButton.setter
+    def generatePassphraseButton(self, button):
+        self.__generatePassphraseButton = button
+
+    @property
+    def passphraseFileLabel(self):
+        '''Shows "Passphrase file".'''
+        return self.__passphraseFileLabel
+
+    @passphraseFileLabel.setter
+    def passphraseFileLabel(self, label):
+        self.__passphraseFileLabel = label
+
+    @property
+    def passphraseFileNameLabel(self):
+        '''Shows passphrase file name.'''
+        return self.__passphraseFileNameLabel
+
+    @passphraseFileNameLabel.setter
+    def passphraseFileNameLabel(self, label):
+        self.__passphraseFileNameLabel = label
+
+    @property
+    def choosePassphraseFileButton(self):
+       '''Stores the "Choose passphrase file" button."'''
+       return self.__choosePassphraseFileButton
+
+    @choosePassphraseFileButton.setter
+    def choosePassphraseFileButton(self, button):
+        self.__choosePassphraseFileButton = button
+
+    @property
+    def numberOfWordsLabel(self):
+        '''Shows "Number of words"'''
+        return self.__numberOfWordsLabel
+
+    @numberOfWordsLabel.setter
+    def numberOfWordsLabel(self, label):
+        self.__numberOfWordsLabel = label
+
+    @property
+    def numberOfWordsSelector(self):
+        '''Contains the number selector(spinner).'''
+        return self.__numberOfWordsSelector
+
+    @numberOfWordsSelector.setter
+    def numberOfWordsSelector(self, spinner):
+        self.__numberOfWordsSelector = spinner
+
+    @property
+    def passphraseLabel(self):
+        '''Shows "Passphrase"'''
+        return self.__passphraseLabel
+
+    @passphraseLabel.setter
+    def passphraseLabel(self, label):
+        self.__passphraseLabel = label
+
+    @property
+    def copyButton(self):
+        '''Stores the "Copy" button.'''
+        return self.__copyButton
+
+    @copyButton.setter
+    def copyButton(self, button):
+        self.__copyButton = button
+
 
 App()
