@@ -25,51 +25,54 @@ class App(tkinter.Tk):
         super().__init__()
         self.title('Passphrase generator')
         self.geometry('700x100')
-        self.passphraseFileLabel = tkinter.Label(self, text = 'Passphrase file')
-        self.passphraseFileNameLabel = tkinter.Label(self, text = 'Passphrase file name')
-        self.choosePassphraseFileButton = tkinter.Button(
+        self.setWordlist({})
+        self.setPassphraseFileNameStringVar(tkinter.StringVar())
+        self.setPassphraseFileLabel(tkinter.Label(self, text = 'Passphrase file'))
+        self.setPassphraseFileNameLabel(tkinter.Label(self, textvariable = self.getPassphraseFileNameStringVar()))
+        self.setChoosePassphraseFileButton(tkinter.Button(
                                                 self,
                                                 text = 'Choose file',
                                                 command = self.changePassphraseFile
-                                            )
-        self.numberOfWordsLabel = tkinter.Label(self, text = 'Number of words')
-        self.numberOfWordsSelector = tkinter.Spinbox(
+                                            ))
+        self.setNumberOfWordsLabel(tkinter.Label(self, text = 'Number of words'))
+        self.setNumberOfWordsSelector(tkinter.Spinbox(
                                             self,
-                                            from_ = self.minimumPassphraseLength,
+                                            from_ = App.getMinimumPassphraseLength(),
                                             to = math.inf,
                                             wrap = False
-                                    )
-        self.passphraseLabel = tkinter.Label(self, text = 'Passphrase')
-        self.generatePassphraseButton = tkinter.Button(
+                                    ))
+        self.setPassphraseLabel(tkinter.Label(self, text = 'Passphrase'))
+        self.setGeneratePassphraseButton(tkinter.Button(
                                             self,
                                             text = 'Generate passphrase',
                                             command = self.generatePassphrase
-                                        )
-        self.copyButton = tkinter.Button(
+                                        ))
+        self.setCopyButton(tkinter.Button(
                                     self,
                                     text = 'Copy',
                                     command = self.copyPassphrase
-                          )
+                                  ))
+        self.loadPassphraseFile('eff_large_wordlist.txt')
 
         # Placing widgets
 
         # First row
-        self.passphraseFileLabel.place(relx = 0, rely = 0, relwidth = 1/3)
-        self.passphraseFileNameLabel.place(relx = 1/3, rely = 0, relwidth = 1/3)
-        self.choosePassphraseFileButton.place(relx = 2/3, rely = 0, relwidth = 1/3)
+        self.getPassphraseFileLabel().place(relx = 0, rely = 0, relwidth = 1/3)
+        self.getPassphraseFileNameLabel().place(relx = 1/3, rely = 0, relwidth = 1/3)
+        self.getChoosePassphraseFileButton().place(relx = 2/3, rely = 0, relwidth = 1/3)
 
         # Second row
-        self.numberOfWordsLabel.place(relx = 0, rely = 1/5, relwidth = 1/2)
-        self.numberOfWordsSelector.place(relx = 1/2, rely = 1/5, relwidth = 1/2)
+        self.getNumberOfWordsLabel().place(relx = 0, rely = 1/5, relwidth = 1/2)
+        self.getNumberOfWordsSelector().place(relx = 1/2, rely = 1/5, relwidth = 1/2)
 
         # Third row
-        self.passphraseLabel.place(relx = 0, rely = 2/5, relwidth = 1)
+        self.getPassphraseLabel().place(relx = 0, rely = 2/5, relwidth = 1)
 
         # Fourth row
-        self.generatePassphraseButton.place(relx = 0, rely = 3/5, relwidth = 1)
+        self.getGeneratePassphraseButton().place(relx = 0, rely = 3/5, relwidth = 1)
 
         # Fifth row
-        self.copyButton.place(relx = 0, rely = 4/5, relwidth = 1)
+        self.getCopyButton().place(relx = 0, rely = 4/5, relwidth = 1)
         self.mainloop()
 
     def changePassphraseFile(self):
@@ -84,81 +87,90 @@ class App(tkinter.Tk):
         '''Copy passphrase method.'''
         print('Passphrase copied.')
 
-    def loadPassphraseFile(self):
+    def loadPassphraseFile(self, file_path):
         '''Loads the passphrase file.'''
-        print('Passphrase file loaded.')
+        def convertLines(line):
+            x = line.split()
+            self.getWordlist().setdefault(int(x[0]), x[1])
+            
+        with open(file_path, 'r') as passphrase_file:
+            map(convertLines, passphrase_file.readlines())
+            self.getPassphraseFileNameStringVar().set(passphrase_file.name)
 
-    @property
-    def generatePassphraseButton(self):
-        '''The "Generate passphrase" button.'''
+        return self
+
+    def getPassphraseFileNameStringVar(self):
+        return self.__passphraseFileNameStringVar
+
+    def setPassphraseFileNameStringVar(self, string_variable):
+        self.__passphraseFileNameStringVar = string_variable
+        return self
+
+    def getWordlist(self):
+        return self.__wordlist
+
+    def setWordlist(self, dictionary):
+        self.__wordlist = dictionary
+        return self
+
+    def getGeneratePassphraseButton(self):
         return self.__generatePassphraseButton
 
-    @generatePassphraseButton.setter
-    def generatePassphraseButton(self, button):
+    def setGeneratePassphraseButton(self, button):
         self.__generatePassphraseButton = button
+        return self
 
-    @property
-    def passphraseFileLabel(self):
-        '''Shows "Passphrase file".'''
+    def getPassphraseFileLabel(self):
         return self.__passphraseFileLabel
 
-    @passphraseFileLabel.setter
-    def passphraseFileLabel(self, label):
+    def setPassphraseFileLabel(self, label):
         self.__passphraseFileLabel = label
+        return self
 
-    @property
-    def passphraseFileNameLabel(self):
-        '''Shows passphrase file name.'''
+    def getPassphraseFileNameLabel(self):
         return self.__passphraseFileNameLabel
 
-    @passphraseFileNameLabel.setter
-    def passphraseFileNameLabel(self, label):
+    def setPassphraseFileNameLabel(self, label):
         self.__passphraseFileNameLabel = label
+        return self
 
-    @property
-    def choosePassphraseFileButton(self):
-       '''Stores the "Choose passphrase file" button."'''
+    def getChoosePassphraseFileButton(self):
        return self.__choosePassphraseFileButton
 
-    @choosePassphraseFileButton.setter
-    def choosePassphraseFileButton(self, button):
+    def setChoosePassphraseFileButton(self, button):
         self.__choosePassphraseFileButton = button
+        return self
 
-    @property
-    def numberOfWordsLabel(self):
-        '''Shows "Number of words"'''
+    def getNumberOfWordsLabel(self):
         return self.__numberOfWordsLabel
 
-    @numberOfWordsLabel.setter
-    def numberOfWordsLabel(self, label):
+    def setNumberOfWordsLabel(self, label):
         self.__numberOfWordsLabel = label
+        return self
 
-    @property
-    def numberOfWordsSelector(self):
-        '''Contains the number selector(spinner).'''
+    def getNumberOfWordsSelector(self):
         return self.__numberOfWordsSelector
 
-    @numberOfWordsSelector.setter
-    def numberOfWordsSelector(self, spinner):
+    def setNumberOfWordsSelector(self, spinner):
         self.__numberOfWordsSelector = spinner
+        return self
 
-    @property
-    def passphraseLabel(self):
-        '''Shows "Passphrase"'''
+    def getPassphraseLabel(self):
         return self.__passphraseLabel
 
-    @passphraseLabel.setter
-    def passphraseLabel(self, label):
+    def setPassphraseLabel(self, label):
         self.__passphraseLabel = label
+        return self
 
-    @property
-    def copyButton(self):
-        '''Stores the "Copy" button.'''
+    def getCopyButton(self):
         return self.__copyButton
 
-    @copyButton.setter
-    def copyButton(self, button):
+    def setCopyButton(self, button):
         self.__copyButton = button
+        return self
+
+    def getMinimumPassphraseLength():
+        return App.minimumPassphraseLength
 
 
 App()
