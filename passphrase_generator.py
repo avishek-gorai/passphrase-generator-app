@@ -19,20 +19,23 @@ import tkinter, math
 class App(tkinter.Tk):
     '''I represent the Passphrase generator application.'''
 
-    minimumPassphraseLength = 6
+    __minimumPassphraseLength = 6
+    __appHeight = 170
+    __appWidth = 800
 
     def __init__(self):
         super().__init__()
         self.title('Passphrase generator')
-        self.geometry('700x100')
+        self.geometry(f'{App.getAppWidth()}x{App.getAppHeight()}')
         self.setWordlist({})
         self.setPassphraseFileNameStringVar(tkinter.StringVar())
+        self.setPassphraseLabelStringVar(tkinter.StringVar())
         self.setPassphraseFileLabel(tkinter.Label(self, text = 'Passphrase file'))
         self.setPassphraseFileNameLabel(tkinter.Label(self, textvariable = self.getPassphraseFileNameStringVar()))
         self.setChoosePassphraseFileButton(tkinter.Button(
                                                 self,
                                                 text = 'Choose file',
-                                                command = self.changePassphraseFile
+                                                command = self.getChangePassphraseFileMethod()
                                             ))
         self.setNumberOfWordsLabel(tkinter.Label(self, text = 'Number of words'))
         self.setNumberOfWordsSelector(tkinter.Spinbox(
@@ -41,16 +44,16 @@ class App(tkinter.Tk):
                                             to = math.inf,
                                             wrap = False
                                     ))
-        self.setPassphraseLabel(tkinter.Label(self, text = 'Passphrase'))
+        self.setPassphraseLabel(tkinter.Label(self, textvariable = self.getPassphraseLabelStringVar()))
         self.setGeneratePassphraseButton(tkinter.Button(
                                             self,
                                             text = 'Generate passphrase',
-                                            command = self.generatePassphrase
+                                            command = self.getGeneratePassphraseMethod()
                                         ))
         self.setCopyButton(tkinter.Button(
                                     self,
                                     text = 'Copy',
-                                    command = self.copyPassphrase
+                                    command = self.getCopyPassphraseMethod()
                                   ))
         self.loadPassphraseFile('eff_large_wordlist.txt')
 
@@ -73,28 +76,57 @@ class App(tkinter.Tk):
 
         # Fifth row
         self.getCopyButton().place(relx = 0, rely = 4/5, relwidth = 1)
+
+    def getGeneratePassphraseMethod(self):
+        return self.generatePassphrase
+
+    def getChangePassphraseFileMethod(self):
+        return self.changePassphraseFile
+
+    def getCopyPassphraseMethod(self):
+        return self.copyPassphrase
+
+    def run(self):
         self.mainloop()
+        return self
+
+    def setPassphraseLabelStringVar(self, string_var):
+        self.__passphraseLabelStringVar = string_var
+        return self
+
+    def getPassphraseLabelStringVar(self):
+        return self.__passphraseLabelStringVar    
 
     def changePassphraseFile(self):
-        '''Passphrase file change method.'''
         print('Passphrase file changed.')
 
     def generatePassphrase(self):
-        '''Passphrase generate method.'''
         print('Passphrase generated.')
 
     def copyPassphrase(self):
-        '''Copy passphrase method.'''
         print('Passphrase copied.')
 
-    def loadPassphraseFile(self, file_path):
-        '''Loads the passphrase file.'''
-        def convertLines(line):
-            x = line.split()
-            self.getWordlist().setdefault(int(x[0]), x[1])
-            
+    def setNumberOfDice(self, n):
+        self.__numberOfDice = n
+        return self
+
+    def getNumberOfDice(self):
+        return self.__numberOfDice
+
+    def getNumberOfWords(self):
+        return self.__numberOfWords
+
+    def setNumberOfWords(self, n):
+        self.__numberOfWords = n
+        return self
+
+    def loadPassphraseFile(self, file_path):        
         with open(file_path, 'r') as passphrase_file:
-            map(convertLines, passphrase_file.readlines())
+            lines = passphrase_file.readlines()
+            self.setNumberOfDice(len(lines[0].split()[0]))
+            for line in lines:
+                line = line.split()
+                self.getWordlist().setdefault(int(line[0]), line[1])
             self.getPassphraseFileNameStringVar().set(passphrase_file.name)
 
         return self
@@ -169,8 +201,17 @@ class App(tkinter.Tk):
         self.__copyButton = button
         return self
 
-    def getMinimumPassphraseLength():
-        return App.minimumPassphraseLength
+    @classmethod
+    def getMinimumPassphraseLength(cls):
+        return cls.__minimumPassphraseLength
+
+    @classmethod
+    def getAppHeight(cls):
+        return cls.__appHeight
+
+    @classmethod
+    def getAppWidth(cls):
+        return cls.__appWidth
 
 
-App()
+App().run()
