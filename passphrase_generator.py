@@ -17,7 +17,7 @@
 import tkinter, math
 
 class App(tkinter.Tk):
-    '''I represent the Passphrase generator application.'''
+    '''I represent the Passphrase generator application.  Methods that seem to return None return self.'''
 
     __minimumPassphraseLength = 6
     __appHeight = 170
@@ -27,179 +27,195 @@ class App(tkinter.Tk):
         super().__init__()
         self.title('Passphrase generator')
         self.geometry(f'{App.getAppWidth()}x{App.getAppHeight()}')
-        self.setWordlist({})
-        self.setPassphraseFileNameStringVar(tkinter.StringVar())
-        self.setPassphraseLabelStringVar(tkinter.StringVar())
-        self.setPassphraseFileLabel(tkinter.Label(self, text = 'Passphrase file'))
-        self.setPassphraseFileNameLabel(tkinter.Label(self, textvariable = self.getPassphraseFileNameStringVar()))
-        self.setChoosePassphraseFileButton(tkinter.Button(
+        self.wordList = {}
+        self.passphraseFileNameStringVar = tkinter.StringVar()
+        self.passphraseLabelStringVar = tkinter.StringVar()
+        self.passphraseFileLabel = tkinter.Label(self, text = 'Passphrase file')
+        self.passphraseFileNameLabel = tkinter.Label(self, textvariable = self.passphraseFileNameStringVar)
+        self.choosePassphraseFileButton = tkinter.Button(
                                                 self,
                                                 text = 'Choose file',
-                                                command = self.getChangePassphraseFileMethod()
-                                            ))
-        self.setNumberOfWordsLabel(tkinter.Label(self, text = 'Number of words'))
-        self.setNumberOfWordsSelector(tkinter.Spinbox(
+                                                command = self.changePassphraseFileMethod
+                                            )
+        self.numberOfWordsLabel = tkinter.Label(self, text = 'Number of words')
+        self.numberOfWordsSelector = tkinter.Spinbox(
                                             self,
                                             from_ = App.getMinimumPassphraseLength(),
                                             to = math.inf,
                                             wrap = False
-                                    ))
-        self.setPassphraseLabel(tkinter.Label(self, textvariable = self.getPassphraseLabelStringVar()))
-        self.setGeneratePassphraseButton(tkinter.Button(
+                                    )
+        self.passphraseLabel = tkinter.Label(self, textvariable = self.passphraseLabelStringVar)
+        self.generatePassphraseButton = tkinter.Button(
                                             self,
                                             text = 'Generate passphrase',
-                                            command = self.getGeneratePassphraseMethod()
-                                        ))
-        self.setCopyButton(tkinter.Button(
+                                            command = self.generatePassphraseMethod
+                                        )
+        self.copyButton = tkinter.Button(
                                     self,
                                     text = 'Copy',
-                                    command = self.getCopyPassphraseMethod()
-                                  ))
+                                    command = self.copyPassphraseMethod
+                                  )
         self.loadPassphraseFile('eff_large_wordlist.txt')
 
         # Placing widgets
 
         # First row
-        self.getPassphraseFileLabel().place(relx = 0, rely = 0, relwidth = 1/3)
-        self.getPassphraseFileNameLabel().place(relx = 1/3, rely = 0, relwidth = 1/3)
-        self.getChoosePassphraseFileButton().place(relx = 2/3, rely = 0, relwidth = 1/3)
+        self.passphraseFileLabel.place(relx = 0, rely = 0, relwidth = 1/3)
+        self.passphraseFileNameLabel.place(relx = 1/3, rely = 0, relwidth = 1/3)
+        self.choosePassphraseFileButton.place(relx = 2/3, rely = 0, relwidth = 1/3)
 
         # Second row
-        self.getNumberOfWordsLabel().place(relx = 0, rely = 1/5, relwidth = 1/2)
-        self.getNumberOfWordsSelector().place(relx = 1/2, rely = 1/5, relwidth = 1/2)
+        self.numberOfWordsLabel.place(relx = 0, rely = 1/5, relwidth = 1/2)
+        self.numberOfWordsSelector.place(relx = 1/2, rely = 1/5, relwidth = 1/2)
 
         # Third row
-        self.getPassphraseLabel().place(relx = 0, rely = 2/5, relwidth = 1)
+        self.passphraseLabel.place(relx = 0, rely = 2/5, relwidth = 1)
 
         # Fourth row
-        self.getGeneratePassphraseButton().place(relx = 0, rely = 3/5, relwidth = 1)
+        self.generatePassphraseButton.place(relx = 0, rely = 3/5, relwidth = 1)
 
         # Fifth row
-        self.getCopyButton().place(relx = 0, rely = 4/5, relwidth = 1)
-
-    def getGeneratePassphraseMethod(self):
-        return self.generatePassphrase
-
-    def getChangePassphraseFileMethod(self):
-        return self.changePassphraseFile
-
-    def getCopyPassphraseMethod(self):
-        return self.copyPassphrase
+        self.copyButton.place(relx = 0, rely = 4/5, relwidth = 1)
 
     def run(self):
         self.mainloop()
         return self
 
-    def setPassphraseLabelStringVar(self, string_var):
+    @property
+    def generatePassphraseMethod(self):
+        return self.__generatePassphraseMethod      
+
+    @property
+    def passphraseLabelStringVar(self):
+        return self.__passphraseLabelStringVar
+
+    @passphraseLabelStringVar.setter
+    def passphraseLabelStringVar(self, string_var):
         self.__passphraseLabelStringVar = string_var
-        return self
 
-    def getPassphraseLabelStringVar(self):
-        return self.__passphraseLabelStringVar    
-
-    def changePassphraseFile(self):
+    @property
+    def changePassphraseFileMethod(self):
+        return self.__changePassphraseFileMethod
+    
+    def __changePassphraseFileMethod(self):
         print('Passphrase file changed.')
 
-    def generatePassphrase(self):
+    def __generatePassphraseMethod(self):
         print('Passphrase generated.')
 
-    def copyPassphrase(self):
+    @property
+    def copyPassphraseMethod(self):
+        return self.__copyPassphraseMethod
+    
+    def __copyPassphraseMethod(self):
         print('Passphrase copied.')
 
-    def setNumberOfDice(self, n):
-        self.__numberOfDice = n
-        return self
-
-    def getNumberOfDice(self):
+    @property
+    def numberOfDice(self):
         return self.__numberOfDice
 
-    def getNumberOfWords(self):
+    @numberOfDice.setter
+    def numberOfDice(self, n):
+        self.__numberOfDice = n
+
+    @property
+    def numberOfWords(self):
         return self.__numberOfWords
 
-    def setNumberOfWords(self, n):
+    @numberOfWords.setter
+    def numberOfWords(self, n):
         self.__numberOfWords = n
-        return self
 
     def loadPassphraseFile(self, file_path):        
         with open(file_path, 'r') as passphrase_file:
             lines = passphrase_file.readlines()
-            self.setNumberOfDice(len(lines[0].split()[0]))
+            self.numberOfDice = len(lines[0].split()[0])
             for line in lines:
                 line = line.split()
-                self.getWordlist().setdefault(int(line[0]), line[1])
-            self.getPassphraseFileNameStringVar().set(passphrase_file.name)
+                self.wordList.setdefault(int(line[0]), line[1])
+            self.passphraseFileNameStringVar.set(passphrase_file.name)
 
         return self
 
-    def getPassphraseFileNameStringVar(self):
+    @property
+    def passphraseFileNameStringVar(self):
         return self.__passphraseFileNameStringVar
 
-    def setPassphraseFileNameStringVar(self, string_variable):
+    @passphraseFileNameStringVar.setter
+    def passphraseFileNameStringVar(self, string_variable):
         self.__passphraseFileNameStringVar = string_variable
-        return self
 
-    def getWordlist(self):
-        return self.__wordlist
+    @property
+    def wordList(self):
+        return self.__wordList
 
-    def setWordlist(self, dictionary):
-        self.__wordlist = dictionary
-        return self
-
-    def getGeneratePassphraseButton(self):
+    @wordList.setter
+    def wordList(self, dictionary):
+        self.__wordList = dictionary
+        
+    @property
+    def generatePassphraseButton(self):
         return self.__generatePassphraseButton
 
-    def setGeneratePassphraseButton(self, button):
+    @generatePassphraseButton.setter
+    def generatePassphraseButton(self, button):
         self.__generatePassphraseButton = button
-        return self
 
-    def getPassphraseFileLabel(self):
+    @property
+    def passphraseFileLabel(self):
         return self.__passphraseFileLabel
 
-    def setPassphraseFileLabel(self, label):
+    @passphraseFileLabel.setter
+    def passphraseFileLabel(self, label):
         self.__passphraseFileLabel = label
-        return self
 
-    def getPassphraseFileNameLabel(self):
+    @property
+    def passphraseFileNameLabel(self):
         return self.__passphraseFileNameLabel
 
-    def setPassphraseFileNameLabel(self, label):
+    @passphraseFileNameLabel.setter
+    def passphraseFileNameLabel(self, label):
         self.__passphraseFileNameLabel = label
-        return self
 
-    def getChoosePassphraseFileButton(self):
+    @property
+    def choosePassphraseFileButton(self):
        return self.__choosePassphraseFileButton
 
-    def setChoosePassphraseFileButton(self, button):
+    @choosePassphraseFileButton.setter
+    def choosePassphraseFileButton(self, button):
         self.__choosePassphraseFileButton = button
-        return self
 
-    def getNumberOfWordsLabel(self):
+    @property
+    def numberOfWordsLabel(self):
         return self.__numberOfWordsLabel
 
-    def setNumberOfWordsLabel(self, label):
+    @numberOfWordsLabel.setter
+    def numberOfWordsLabel(self, label):
         self.__numberOfWordsLabel = label
-        return self
 
-    def getNumberOfWordsSelector(self):
+    @property
+    def numberOfWordsSelector(self):
         return self.__numberOfWordsSelector
 
-    def setNumberOfWordsSelector(self, spinner):
+    @numberOfWordsSelector.setter
+    def numberOfWordsSelector(self, spinner):
         self.__numberOfWordsSelector = spinner
-        return self
 
-    def getPassphraseLabel(self):
+    @property
+    def passphraseLabel(self):
         return self.__passphraseLabel
 
-    def setPassphraseLabel(self, label):
+    @passphraseLabel.setter
+    def passphraseLabel(self, label):
         self.__passphraseLabel = label
-        return self
 
-    def getCopyButton(self):
+    @property
+    def copyButton(self):
         return self.__copyButton
 
-    def setCopyButton(self, button):
+    @copyButton.setter
+    def copyButton(self, button):
         self.__copyButton = button
-        return self
 
     @classmethod
     def getMinimumPassphraseLength(cls):
