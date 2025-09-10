@@ -1,23 +1,23 @@
 ''' Copyright (C) 2025 Avishek Gorai
 
-    This program is free software: you can redistribute it and/or modify
+    Passphrase generator is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
+    Passphrase generator is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    along with Passphrase generator.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
 import tkinter, math
 
 class App(tkinter.Tk):
-    '''I represent the Passphrase generator application.  Methods that seem to return None return self.'''
+    '''I represent the Passphrase generator application.'''
 
     __minimumPassphraseLength = 6
     __appHeight = 170
@@ -78,15 +78,18 @@ class App(tkinter.Tk):
         self.copyButton.place(relx = 0, rely = 4/5, relwidth = 1)
 
     def run(self):
+        '''Runs this app by calling tkinter's mainloop.  Returns self.'''
         self.mainloop()
         return self
 
     @property
     def generatePassphraseMethod(self):
+        '''This method is called on clicking "Generate Passphrase" button.'''
         return self.__generatePassphraseMethod      
 
     @property
     def passphraseLabelStringVar(self):
+        '''A string variable that stores the passphrase.'''
         return self.__passphraseLabelStringVar
 
     @passphraseLabelStringVar.setter
@@ -95,6 +98,7 @@ class App(tkinter.Tk):
 
     @property
     def changePassphraseFileMethod(self):
+        '''A method which is called on clicking "Choose File".'''
         return self.__changePassphraseFileMethod
     
     def __changePassphraseFileMethod(self):
@@ -105,6 +109,7 @@ class App(tkinter.Tk):
 
     @property
     def copyPassphraseMethod(self):
+        '''A method that is called on clicking "Copy" button.'''
         return self.__copyPassphraseMethod
     
     def __copyPassphraseMethod(self):
@@ -112,6 +117,7 @@ class App(tkinter.Tk):
 
     @property
     def numberOfDice(self):
+        '''Total number of dice.  This value is set automatically by reading the choosen passphrase file.'''
         return self.__numberOfDice
 
     @numberOfDice.setter
@@ -120,13 +126,15 @@ class App(tkinter.Tk):
 
     @property
     def numberOfWords(self):
+        '''Number of words.'''
         return self.__numberOfWords
 
     @numberOfWords.setter
     def numberOfWords(self, n):
         self.__numberOfWords = n
 
-    def loadPassphraseFile(self, file_path):        
+    def loadPassphraseFile(self, file_path):
+        '''Loads passphrase file and stores all the words in "wordList".  Returns self.'''
         with open(file_path, 'r') as passphrase_file:
             lines = passphrase_file.readlines()
             self.numberOfDice = len(lines[0].split()[0])
@@ -139,6 +147,7 @@ class App(tkinter.Tk):
 
     @property
     def passphraseFileNameStringVar(self):
+        '''A string variable that stores the passphrase file name.'''
         return self.__passphraseFileNameStringVar
 
     @passphraseFileNameStringVar.setter
@@ -147,6 +156,7 @@ class App(tkinter.Tk):
 
     @property
     def wordList(self):
+        '''A dictionary where the dice combinations are keys and words are values.'''
         return self.__wordList
 
     @wordList.setter
@@ -155,6 +165,7 @@ class App(tkinter.Tk):
         
     @property
     def generatePassphraseButton(self):
+        '''A button that generates the passphrase on clicking.'''
         return self.__generatePassphraseButton
 
     @generatePassphraseButton.setter
@@ -163,6 +174,7 @@ class App(tkinter.Tk):
 
     @property
     def passphraseFileLabel(self):
+        '''A label which stores "Passphrase file" text.'''
         return self.__passphraseFileLabel
 
     @passphraseFileLabel.setter
@@ -171,6 +183,7 @@ class App(tkinter.Tk):
 
     @property
     def passphraseFileNameLabel(self):
+        '''This label stores the passphrase file name.'''
         return self.__passphraseFileNameLabel
 
     @passphraseFileNameLabel.setter
@@ -179,7 +192,8 @@ class App(tkinter.Tk):
 
     @property
     def choosePassphraseFileButton(self):
-       return self.__choosePassphraseFileButton
+        '''A button that opens the file dialog to choose the passphrase file.'''
+        return self.__choosePassphraseFileButton
 
     @choosePassphraseFileButton.setter
     def choosePassphraseFileButton(self, button):
@@ -187,6 +201,7 @@ class App(tkinter.Tk):
 
     @property
     def numberOfWordsLabel(self):
+        '''A label whose text is "Number of words".'''
         return self.__numberOfWordsLabel
 
     @numberOfWordsLabel.setter
@@ -195,6 +210,7 @@ class App(tkinter.Tk):
 
     @property
     def numberOfWordsSelector(self):
+        '''A spinbox used to select the number of words.'''
         return self.__numberOfWordsSelector
 
     @numberOfWordsSelector.setter
@@ -203,6 +219,7 @@ class App(tkinter.Tk):
 
     @property
     def passphraseLabel(self):
+        '''A label whose text is "Passphrase".'''
         return self.__passphraseLabel
 
     @passphraseLabel.setter
@@ -211,6 +228,7 @@ class App(tkinter.Tk):
 
     @property
     def copyButton(self):
+        '''The "Copy" button.'''
         return self.__copyButton
 
     @copyButton.setter
@@ -219,14 +237,17 @@ class App(tkinter.Tk):
 
     @classmethod
     def getMinimumPassphraseLength(cls):
+        '''Returns minimum passphrase length.'''
         return cls.__minimumPassphraseLength
 
     @classmethod
     def getAppHeight(cls):
+        '''Returns height of the application window.'''
         return cls.__appHeight
 
     @classmethod
     def getAppWidth(cls):
+        '''Returns width of the application window.'''
         return cls.__appWidth
 
 
