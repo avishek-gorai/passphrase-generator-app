@@ -14,12 +14,12 @@
     along with Passphrase generator.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
-import tkinter, math
+import tkinter, math, tkinter.filedialog as fileDialog, random
 
 class App(tkinter.Tk):
     '''I represent the Passphrase generator application.'''
 
-    __minimumPassphraseLength = 6
+    __minimumNumberOfWords = 6
     __appHeight = 170
     __appWidth = 800
 
@@ -28,8 +28,9 @@ class App(tkinter.Tk):
         self.title('Passphrase generator')
         self.geometry(f'{App.getAppWidth()}x{App.getAppHeight()}')
         self.wordList = {}
-        self.passphraseFileNameStringVar = tkinter.StringVar()
-        self.passphraseLabelStringVar = tkinter.StringVar()
+        self.numberOfWordsIntVar = tkinter.IntVar(master = self)
+        self.passphraseFileNameStringVar = tkinter.StringVar(master = self)
+        self.passphraseLabelStringVar = tkinter.StringVar(master = self)
         self.passphraseFileLabel = tkinter.Label(self, text = 'Passphrase file')
         self.passphraseFileNameLabel = tkinter.Label(self, textvariable = self.passphraseFileNameStringVar)
         self.choosePassphraseFileButton = tkinter.Button(
@@ -40,8 +41,9 @@ class App(tkinter.Tk):
         self.numberOfWordsLabel = tkinter.Label(self, text = 'Number of words')
         self.numberOfWordsSelector = tkinter.Spinbox(
                                             self,
-                                            from_ = App.getMinimumPassphraseLength(),
+                                            from_ = App.getMinimumNumberOfWords(),
                                             to = math.inf,
+                                            textvariable = self.numberOfWordsIntVar,
                                             wrap = False
                                     )
         self.passphraseLabel = tkinter.Label(self, textvariable = self.passphraseLabelStringVar)
@@ -78,13 +80,22 @@ class App(tkinter.Tk):
         self.copyButton.place(relx = 0, rely = 4/5, relwidth = 1)
 
     def run(self):
-        '''Runs this app by calling tkinter's mainloop.  Returns self.'''
+        '''Runs the app by calling tkinter's mainloop.  Returns self.'''
         self.mainloop()
         return self
 
     @property
+    def numberOfWordsIntVar(self):
+        '''Stores number of words.'''
+        return self.__numberOfWordsIntVar
+
+    @numberOfWordsIntVar.setter
+    def numberOfWordsIntVar(self, intVar):
+        self.__numberOfWordsIntVar = intVar
+
+    @property
     def generatePassphraseMethod(self):
-        '''This method is called on clicking "Generate Passphrase" button.'''
+        '''This method is used to generate passphrase.'''
         return self.__generatePassphraseMethod      
 
     @property
@@ -98,26 +109,37 @@ class App(tkinter.Tk):
 
     @property
     def changePassphraseFileMethod(self):
-        '''A method which is called on clicking "Choose File".'''
+        '''This method changes the passphrase file and loads it.'''
         return self.__changePassphraseFileMethod
     
     def __changePassphraseFileMethod(self):
-        print('Passphrase file changed.')
+        self.loadPassphraseFile(fileDialog.askopenfilename())
+        return self
 
     def __generatePassphraseMethod(self):
-        print('Passphrase generated.')
+        passphrase = ''
+        for i in range(self.numberOfWords):
+            index = 0
+            for i in range(self.numberOfDice):
+                index = index * 10 + random.randint(1, 6)
+            passphrase = passphrase + self.wordList.get(index) + ' '
+        self.passphraseLabelStringVar.set(passphrase)
+        
+        return self
 
     @property
     def copyPassphraseMethod(self):
-        '''A method that is called on clicking "Copy" button.'''
+        '''This method is used to copy the passphrase.'''
         return self.__copyPassphraseMethod
     
     def __copyPassphraseMethod(self):
-        print('Passphrase copied.')
+        self.clipboard_clear()
+        self.clipboard_append(self.passphraseLabelStringVar.get())
+        return self
 
     @property
     def numberOfDice(self):
-        '''Total number of dice.  This value is set automatically by reading the choosen passphrase file.'''
+        '''Total number of dice.  This value is set automatically while the passphrase file is being loaded.'''
         return self.__numberOfDice
 
     @numberOfDice.setter
@@ -126,16 +148,16 @@ class App(tkinter.Tk):
 
     @property
     def numberOfWords(self):
-        '''Number of words.'''
-        return self.__numberOfWords
+        '''Number of words.  App.getMinimumNumberOfWords() returns the default value.'''
+        return self.numberOfWordsIntVar.get()
 
     @numberOfWords.setter
     def numberOfWords(self, n):
-        self.__numberOfWords = n
+        self.numberOfWordsIntVar.set(n)
 
-    def loadPassphraseFile(self, file_path):
-        '''Loads passphrase file and stores all the words in "wordList".  Returns self.'''
-        with open(file_path, 'r') as passphrase_file:
+    def loadPassphraseFile(self, filePath):
+        '''Loads passphrase file.  Returns self.'''
+        with open(filePath, 'r') as passphrase_file:
             lines = passphrase_file.readlines()
             self.numberOfDice = len(lines[0].split()[0])
             for line in lines:
@@ -147,7 +169,7 @@ class App(tkinter.Tk):
 
     @property
     def passphraseFileNameStringVar(self):
-        '''A string variable that stores the passphrase file name.'''
+        '''Stores the passphrase file name.'''
         return self.__passphraseFileNameStringVar
 
     @passphraseFileNameStringVar.setter
@@ -156,7 +178,7 @@ class App(tkinter.Tk):
 
     @property
     def wordList(self):
-        '''A dictionary where the dice combinations are keys and words are values.'''
+        '''The words and dice combinations are stored here in a dictionary after reading from the passphrase file.'''
         return self.__wordList
 
     @wordList.setter
@@ -165,7 +187,7 @@ class App(tkinter.Tk):
         
     @property
     def generatePassphraseButton(self):
-        '''A button that generates the passphrase on clicking.'''
+        '''Generates passphrase on clicking.'''
         return self.__generatePassphraseButton
 
     @generatePassphraseButton.setter
@@ -174,7 +196,7 @@ class App(tkinter.Tk):
 
     @property
     def passphraseFileLabel(self):
-        '''A label which stores "Passphrase file" text.'''
+        '''Shows "Passphrase file".'''
         return self.__passphraseFileLabel
 
     @passphraseFileLabel.setter
@@ -183,7 +205,7 @@ class App(tkinter.Tk):
 
     @property
     def passphraseFileNameLabel(self):
-        '''This label stores the passphrase file name.'''
+        '''Shows the passphrase file name.'''
         return self.__passphraseFileNameLabel
 
     @passphraseFileNameLabel.setter
@@ -192,7 +214,7 @@ class App(tkinter.Tk):
 
     @property
     def choosePassphraseFileButton(self):
-        '''A button that opens the file dialog to choose the passphrase file.'''
+        '''Opens the file dialog to choose the passphrase file.'''
         return self.__choosePassphraseFileButton
 
     @choosePassphraseFileButton.setter
@@ -201,7 +223,7 @@ class App(tkinter.Tk):
 
     @property
     def numberOfWordsLabel(self):
-        '''A label whose text is "Number of words".'''
+        '''Shows "Number of words".'''
         return self.__numberOfWordsLabel
 
     @numberOfWordsLabel.setter
@@ -210,7 +232,7 @@ class App(tkinter.Tk):
 
     @property
     def numberOfWordsSelector(self):
-        '''A spinbox used to select the number of words.'''
+        '''Used to select number of words.'''
         return self.__numberOfWordsSelector
 
     @numberOfWordsSelector.setter
@@ -219,7 +241,7 @@ class App(tkinter.Tk):
 
     @property
     def passphraseLabel(self):
-        '''A label whose text is "Passphrase".'''
+        '''Shows "Passphrase".'''
         return self.__passphraseLabel
 
     @passphraseLabel.setter
@@ -228,7 +250,7 @@ class App(tkinter.Tk):
 
     @property
     def copyButton(self):
-        '''The "Copy" button.'''
+        '''The copy button.'''
         return self.__copyButton
 
     @copyButton.setter
@@ -236,9 +258,9 @@ class App(tkinter.Tk):
         self.__copyButton = button
 
     @classmethod
-    def getMinimumPassphraseLength(cls):
-        '''Returns minimum passphrase length.'''
-        return cls.__minimumPassphraseLength
+    def getMinimumNumberOfWords(cls):
+        '''Returns minimum number of words that is considered safe.'''
+        return cls.__minimumNumberOfWords
 
     @classmethod
     def getAppHeight(cls):
